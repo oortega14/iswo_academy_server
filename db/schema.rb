@@ -18,9 +18,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
     t.string "name", null: false
     t.text "description"
     t.bigint "admin_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id"], name: "index_academies_on_admin_id"
+    t.index ["category_id"], name: "index_academies_on_category_id"
+  end
+
+  create_table "academy_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "course_purchases", force: :cascade do |t|
@@ -141,6 +150,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "academies", "academy_categories", column: "category_id"
   add_foreign_key "academies", "users", column: "admin_id"
   add_foreign_key "course_purchases", "courses"
   add_foreign_key "course_purchases", "users"

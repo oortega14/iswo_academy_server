@@ -10,6 +10,7 @@ class ApplicationController < ActionController::API
 
   # Callbacks
   before_action :set_locale
+  before_action :set_current_academy
 
   # Rescues
   rescue_from ApiExceptions::BaseException, with: :render_error_response
@@ -42,5 +43,10 @@ class ApplicationController < ActionController::API
   def handle_expired_jwt
     render json: { message: I18n.t('jwt.expired_signature'), expired: true }, status: :unauthorized
     # cookies.delete(:jwt)
+  end
+
+  def set_current_academy
+    @current_academy = request.env['current_academy']
+    render json: { error: 'Academia no encontrada' }, status: :not_found unless @current_academy
   end
 end

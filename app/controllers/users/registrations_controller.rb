@@ -9,7 +9,8 @@ module Users
                                    :is_super_admin,
                                    :password,
                                    :password_confirmation,
-                                   user_detail_attributes: [:first_name, :last_name, :gender, :birth_date, :dni, :username, :phone, :address, :city, :province, :country, :postal_code],
+                                   user_detail_attributes: [:first_name, :last_name, :gender, :birth_date, :dni, :username, :phone, :address, :city, :province, :country, :postal_code,
+                                   social_networks_attributes: [:platform, :url]],
                                    academy_user_attributes: [:academy_id])
     end
 

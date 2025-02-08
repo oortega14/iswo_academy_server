@@ -4,15 +4,18 @@ module Api
       before_action :set_academy, only: %i[show update destroy add_professor enroll_student]
       before_action :authorize_admin!, only: %i[update destroy add_professor]
 
+      # GET '/api/v1/academies'
       def index
         academies = Academy.all
         render json: academies, status: :ok
       end
 
+      # GET '/api/v1/academies/:id'
       def show
         render json: @academy, status: :ok
       end
 
+      # POST '/api/v1/academies'
       def create
         unless current_user.is_super_admin?
           return render json: { error: 'No autorizado' }, status: :forbidden
@@ -27,6 +30,7 @@ module Api
         end
       end
 
+      # PUT '/api/v1/academies/:id'
       def update
         if @academy.update(academy_params)
           render json: @academy, status: :ok
@@ -35,11 +39,13 @@ module Api
         end
       end
 
+      # DELETE '/api/v1/academies/:id'
       def destroy
         @academy.destroy
         render json: { message: 'Academia eliminada' }, status: :ok
       end
 
+      # POST '/api/v1/academies/:id/add_professor'
       def add_professor
         user = User.find_by(email: params[:email])
         if user && !@academy.users.include?(user)
@@ -50,6 +56,7 @@ module Api
         end
       end
 
+      # POST '/api/v1/academies/:id/enroll_student'
       def enroll_student
         user = User.find_by(email: params[:email])
         if user && !@academy.users.include?(user)
