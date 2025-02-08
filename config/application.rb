@@ -1,6 +1,6 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -10,23 +10,21 @@ module IswoAcademyBack
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
-
-    # Please, add to the `ignore` list any other `lib` subdirectories that do
-    # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
-
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
-
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
+    config.action_dispatch.cookies_same_site_protection = :lax
+    config.middleware.use ActionDispatch::Cookies
+    config.i18n.available_locales = %i[es en]
+    config.i18n.default_locale = :es
+    config.i18n.fallbacks = { es: :en }
+    config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths
+    config.time_zone = 'America/Bogota'
     config.api_only = true
+
+    config.generators do |g|
+      g.test_framework false
+      g.model_specs true
+      g.helper_specs false
+      g.controller_specs true
+    end
   end
 end
