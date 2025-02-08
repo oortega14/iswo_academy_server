@@ -20,6 +20,9 @@ module IswoAcademyBack
     config.time_zone = 'America/Bogota'
     config.api_only = true
 
+    # Configurar el almacén de sesiones
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_iswo_academy_session_id'
+
     config.generators do |g|
       g.test_framework false
       g.model_specs true

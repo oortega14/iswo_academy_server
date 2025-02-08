@@ -1,0 +1,105 @@
+es:
+  activerecord:
+    errors:
+      messages:
+        attached: debe estar presente
+        taken: ya existe
+        blank: debe existir
+        required: no puede estar en blanco
+    models:
+      user: Usuario
+      about_us_section: Sección
+      academy_contact: Mensaje
+    attributes:
+      user:
+        first_name: Nombre
+        last_name: Apellido
+        dni: Identificación
+        username: Nombre de usuario
+        description: descripción
+        email: email
+        role: rol
+      about_us_section:
+        academy: academia
+        title: título
+        description: descripción
+      academy_contact:
+        name: nombre de usuario
+        email: email
+        message: mensaje
+        academy: academia
+  academy_categories:
+    Technology: Tecnología
+    Finance: Finanzas
+    Languages: Idiomas
+    Business: Negocios
+    My Company: Mi Empresa
+    Health and Sports: Salud y Deportes
+    Finance and Investments: Finanzas e Inversiones
+    Design: Diseño
+    Relationships: Relaciones
+    Business and Career: Negocios y Carrera
+    Espirituality: Espiritualidad
+    Sexuality: Sexualidad
+    Entertaiment: Entretenimiento
+    Culinary and Gastronomy: Culinaria y Gastronomia
+    Law: Derecho
+    Apps and Software: Apps y Software
+    Literature: Literatura
+    Home and Construction: Casa y Construcción
+    Personal development: Desarrollo Personal
+    Fashion and Beauty: Moda y Belleza
+    Animals and plants: Animales y Plantas
+    Educational: Educacional
+    Hobbies: Pasatiempos
+    Internet: Internet
+    Ecology and Environment: Ecología y Medio Ambiente
+    Art and music: Música y Artes
+    Information Technology: Tecnología de la Información
+    Others: Otros
+    Digital Entrepreneurship: Emprendimiento Dígital
+  users:
+    roles:
+      superadmin: Súper Administrador
+      admin: Administrador
+      student: Estudiante
+      teacher: Profesor
+    email_confirmation: confirma tu email
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      long: "%A, %d de %B de %Y"
+      short: "%d/%m/%Y"
+      custom: "%d de %B de %Y"
+  time:
+    formats:
+      default: "%H:%M:%S"
+      short: "%H:%M"
+      custom: "%H:%M"
+  teacher_tasks:
+    status:
+      created: Creada
+      assigned: Asignada
+      expired: Expirada
+      completed: Completada
+  student_tasks:
+    status:
+      non_started: No comenzada
+      in_progress: En progreso
+      pending: Pendiente de revisión
+      completed: Completada
+      expired: Expirada
+  jwt:
+    expired_signature: Por favor, inicie sesión nuevamente.
+  record:
+    create:
+      success: Registro creado con éxito.
+      error: Ocurrió un error al crear este registro.
+    update:
+      success: Registro actualizado con éxito.
+      failed: Ocurrió un error al actualizar este registro.
+    destroy:
+      success: Registro eliminado con éxito.
+    not_supported: Acción no soportada
+  test_question:
+    unique_validation: No debes poner preguntas iguales

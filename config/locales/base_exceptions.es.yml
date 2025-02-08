@@ -1,0 +1,17 @@
+es:
+  base_exceptions:
+    # Basic exceptions
+    standard_error: Ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.
+    record_not_found: No se encontró el registro solicitado.
+    record_not_unique: Parece que ya existe un registro con esta información. Por favor, verifica e intenta de nuevo.
+    unauthorized_user: Usuario No autorizado para realizar esta acción.
+    # Custom exceptions
+    invalid_status_change: No es posible cambiar el estatus del registro.
+    failed_registration: Ocurrió un fallo en el proceso de registro.
+    service_not_available: El servicio no esta disponible temporalmente.
+    task_expired: Esta tarea ya no esta disponible.
+    academy_already_created: Este usuario ya tiene una academia vinculada
+    duplicated_test: Este curso ya tiene una evaluación vinculada.
+    options_failed: No se pudo guardar las opciones de la pregunta.
+    students_not_created: Algunos estudiantes no fueron creados.
+    repeated_question: No debes repetir las preguntas.

@@ -3,12 +3,10 @@ class UserDetail < ApplicationRecord
   belongs_to :user
   has_many :social_networks, dependent: :destroy
 
+  # Enums
+  enum gender: { :male => 0, :female => 1 }
+
   # Validations
-  validates :username, presence: true, uniqueness: true
-  validates :dni, presence: true, uniqueness: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :birth_date, presence: true
-  validates :phone, presence: true
-  validates :gender, presence: true
+  validates :username, :dni, presence: true, uniqueness: true
+  validates :first_name, :last_name, :birth_date, :phone, :gender, presence: true
 end

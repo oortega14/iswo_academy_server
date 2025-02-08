@@ -98,17 +98,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.date "birth_date", null: false
-    t.integer "phone", null: false
-    t.integer "dni", null: false
+    t.string "phone", null: false
+    t.string "dni", null: false
     t.integer "gender", null: false
     t.string "address", null: false
     t.string "city", null: false
     t.string "province", null: false
     t.string "country", null: false
     t.string "postal_code", null: false
+    t.string "username", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_details_on_user_id"
+    t.index ["username"], name: "index_user_details_on_username", unique: true
   end
 
   create_table "users", force: :cascade do |t|

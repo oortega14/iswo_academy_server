@@ -1,13 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users,
-             controllers: {
-               sessions: 'users/sessions',
-               registrations: 'users/registrations'
-             },
-             defaults: { format: :json }
-
   namespace :api do
     namespace :v1 do
+      # Academy routes
       resources :academies do
         member do
           post 'add_professor'
@@ -15,11 +9,21 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: %i[index show destroy] do
-        collection do
-          get 'current'
-        end
-      end
+      # User routes
+      devise_for :users,
+                 controllers: {
+                   sessions: 'users/sessions',
+                   registrations: 'users/registrations'
+                 },
+                 defaults: {
+                   format: :json
+                 }
+
+      # resources :users, only: %i[index show destroy] do
+      #   collection do
+      #     get 'current'
+      #   end
+      # end
     end
   end
 end
