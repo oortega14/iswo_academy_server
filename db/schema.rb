@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "academy_configurations", force: :cascade do |t|
+    t.string "domain", null: false
+    t.jsonb "colors", default: {}
+    t.string "contact_name"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.bigint "academy_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academy_id"], name: "index_academy_configurations_on_academy_id"
+    t.index ["domain"], name: "index_academy_configurations_on_domain", unique: true
   end
 
   create_table "course_purchases", force: :cascade do |t|
@@ -92,6 +105,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
     t.index ["user_id"], name: "index_student_enrollments_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "academy_id", null: false
+    t.decimal "amount"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academy_id"], name: "index_subscriptions_on_academy_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "user_academies", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "academy_id"
@@ -152,6 +176,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
 
   add_foreign_key "academies", "academy_categories", column: "category_id"
   add_foreign_key "academies", "users", column: "admin_id"
+  add_foreign_key "academy_configurations", "academies"
   add_foreign_key "course_purchases", "courses"
   add_foreign_key "course_purchases", "users"
   add_foreign_key "courses", "academies"
@@ -160,6 +185,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_07_223914) do
   add_foreign_key "social_networks", "user_details"
   add_foreign_key "student_enrollments", "academies"
   add_foreign_key "student_enrollments", "users"
+  add_foreign_key "subscriptions", "academies"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "user_academies", "academies"
   add_foreign_key "user_academies", "users"
   add_foreign_key "user_details", "users"

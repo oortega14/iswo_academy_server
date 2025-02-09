@@ -19,11 +19,14 @@ Rails.application.routes.draw do
                    format: :json
                  }
 
-      # resources :users, only: %i[index show destroy] do
-      #   collection do
-      #     get 'current'
-      #   end
-      # end
+      resources :users, only: %i[index show destroy] do
+        collection do
+          get 'current'
+        end
+      end
+
+      # Payments routes
+      post "payments/webhook", to: "api/v1/payments#webhook"
     end
   end
 end
