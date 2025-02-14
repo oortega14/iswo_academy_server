@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :set_user, only: %i[show destroy]
+  # before_action :authenticate_user!, except: %i[index show]
+  # before_action :set_user, only: %i[show destroy]
+  skip_before_action :set_current_academy, only: %i[me]
 
   # GET '/api/v1/users'
   def index
@@ -27,6 +28,11 @@ class Api::V1::UsersController < ApplicationController
     end
     @user.destroy
     render json: { message: 'Usuario eliminado' }, status: :ok
+  end
+
+  # GET '/api/v1/users/me'
+  def me
+    render json: current_user, status: :ok
   end
 
   private

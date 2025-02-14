@@ -32,9 +32,10 @@ class ApplicationController < ActionController::API
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
-  def current_user
-    current_api_user
-  end
+  # def current_user
+  #   debugger
+  #   current_api_user
+  # end
 
   def handle_user_not_authorized
     render_error_response(ApiExceptions::BaseException.new(:UNAUTHORIZED, [], {}))

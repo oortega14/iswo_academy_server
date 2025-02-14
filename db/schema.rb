@@ -128,18 +128,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
 
   create_table "user_details", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.date "birth_date", null: false
-    t.string "phone", null: false
-    t.string "dni", null: false
-    t.integer "gender", null: false
-    t.string "address", null: false
-    t.string "city", null: false
-    t.string "province", null: false
-    t.string "country", null: false
-    t.string "postal_code", null: false
-    t.string "username", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.date "birth_date"
+    t.string "phone"
+    t.string "dni"
+    t.integer "gender"
+    t.string "address"
+    t.string "city"
+    t.string "province"
+    t.string "country"
+    t.string "postal_code"
+    t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_details_on_user_id"
@@ -149,6 +149,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
   create_table "users", force: :cascade do |t|
     t.boolean "is_active", default: true
     t.boolean "is_super_admin", default: false
+    t.boolean "is_profile_completed", default: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

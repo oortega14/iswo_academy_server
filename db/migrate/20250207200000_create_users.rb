@@ -3,6 +3,7 @@ class CreateUsers < ActiveRecord::Migration[7.2]
     create_table :users do |t|
       t.boolean :is_active, default: true
       t.boolean :is_super_admin, default: false
+      t.boolean :is_profile_completed, default: false
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
