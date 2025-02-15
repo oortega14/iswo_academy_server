@@ -4,6 +4,8 @@ class CreateUsers < ActiveRecord::Migration[7.2]
       t.boolean :is_active, default: true
       t.boolean :is_super_admin, default: false
       t.boolean :is_profile_completed, default: false
+      t.integer :wizard_step, default: 1
+
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""

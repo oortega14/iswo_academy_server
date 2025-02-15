@@ -47,11 +47,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
 
   create_table "addresses", force: :cascade do |t|
     t.bigint "user_detail_id", null: false
-    t.string "address", null: false
-    t.string "city", null: false
-    t.string "province", null: false
-    t.string "country", null: false
-    t.string "postal_code", null: false
+    t.string "address"
+    t.string "city"
+    t.string "province"
+    t.string "country"
+    t.string "postal_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_detail_id"], name: "index_addresses_on_user_detail_id"
@@ -157,6 +157,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.boolean "is_active", default: true
     t.boolean "is_super_admin", default: false
     t.boolean "is_profile_completed", default: false
+    t.integer "wizard_step", default: 1
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

@@ -1,13 +1,16 @@
 class UserDetail < ApplicationRecord
   # Associations
   belongs_to :user
+
   has_many :social_networks, dependent: :destroy
+  has_one :address, dependent: :destroy
 
   # Enums
   enum :gender, { male: 0, female: 1 }
 
   # Nested attributes
   accepts_nested_attributes_for :social_networks, allow_destroy: true
+  accepts_nested_attributes_for :address, allow_destroy: true
 
   # Validations
   validates :username, :dni, presence: true, uniqueness: true, on: :update

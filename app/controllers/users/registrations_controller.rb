@@ -5,15 +5,15 @@ module Users
     respond_to :json
 
     # skips
-    skip_before_action :set_current_academy
+    # skip_before_action :set_current_academy
 
     # POST '/api/v1/users'
     def create
       build_resource(sign_up_params)
 
       # Asignar una contraseña genérica
-      resource.password = 'Iswo12345*'
-      resource.password_confirmation = 'Iswo12345*'
+      resource.password = Rails.application.credentials.super_admin_password
+      resource.password_confirmation = Rails.application.credentials.super_admin_password
 
       resource.save
       respond_with resource

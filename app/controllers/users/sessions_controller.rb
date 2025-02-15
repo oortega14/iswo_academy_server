@@ -9,7 +9,7 @@ module Users
     # Callbacks
     before_action :authenticate!, except: %i[destroy create]
     skip_before_action :verify_signed_out_user, only: [:destroy]
-    skip_before_action :set_current_academy
+    # skip_before_action :set_current_academy
 
     respond_to :json
 
