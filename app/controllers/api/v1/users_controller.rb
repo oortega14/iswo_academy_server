@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
-  # before_action :authenticate_user!, except: %i[index show]
-  # before_action :set_user, only: %i[show destroy]
-  skip_before_action :set_current_academy, only: %i[me]
+  before_action :authenticate!, except: %i[index show]
+  before_action :set_user, only: %i[show destroy]
+  # skip_before_action :set_current_academy, only: %i[me]
 
   # GET '/api/v1/users'
   def index
@@ -12,8 +12,12 @@ class Api::V1::UsersController < ApplicationController
   end
 
   # GET '/api/v1/users/current'
-  def current
-    render json: current_user, status: :ok
+  def update
+    if current_user.update(user_params)
+      render json: current_user, status: :ok
+    else
+      render json: { error: current_user.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   # GET '/api/v1/users/:id'
@@ -32,7 +36,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET '/api/v1/users/me'
   def me
-    render json: current_user, status: :ok
+    render json: serialize_item(current_user, UserSerializer), status: :ok
   end
 
   private

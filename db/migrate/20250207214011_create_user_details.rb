@@ -8,11 +8,6 @@ class CreateUserDetails < ActiveRecord::Migration[7.2]
       t.string :phone
       t.string :dni
       t.integer :gender
-      t.string :address
-      t.string :city
-      t.string :province
-      t.string :country
-      t.string :postal_code
       t.string :username, index: { unique: true }
 
       t.timestamps

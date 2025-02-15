@@ -45,6 +45,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.index ["domain"], name: "index_academy_configurations_on_domain", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.bigint "user_detail_id", null: false
+    t.string "address", null: false
+    t.string "city", null: false
+    t.string "province", null: false
+    t.string "country", null: false
+    t.string "postal_code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_detail_id"], name: "index_addresses_on_user_detail_id"
+  end
+
   create_table "course_purchases", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "course_id", null: false
@@ -134,11 +146,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.string "phone"
     t.string "dni"
     t.integer "gender"
-    t.string "address"
-    t.string "city"
-    t.string "province"
-    t.string "country"
-    t.string "postal_code"
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -178,6 +185,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
   add_foreign_key "academies", "academy_categories", column: "category_id"
   add_foreign_key "academies", "users", column: "admin_id"
   add_foreign_key "academy_configurations", "academies"
+  add_foreign_key "addresses", "user_details"
   add_foreign_key "course_purchases", "courses"
   add_foreign_key "course_purchases", "users"
   add_foreign_key "courses", "academies"

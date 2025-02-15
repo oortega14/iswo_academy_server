@@ -51,6 +51,12 @@ gem 'devise-jwt', '~> 0.12.1'
 # Soft delete
 gem 'paranoia'
 
+# Manager api responses
+gem 'jsonapi_responses', '~> 0.1.2'
+
+# Mercado Pago
+gem 'mercadopago-sdk', '~> 2.3'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
@@ -61,5 +67,3 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem 'rubocop-rails-omakase', require: false
 end
-
-gem "mercadopago-sdk", "~> 2.3"

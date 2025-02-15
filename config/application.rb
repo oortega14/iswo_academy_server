@@ -13,7 +13,7 @@ module IswoAcademyBack
     config.load_defaults 7.2
     config.action_dispatch.cookies_same_site_protection = :lax
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use Middleware::SubdomainMiddleware
+    # config.middleware.use Middleware::SubdomainMiddleware
     config.i18n.available_locales = %i[es en]
     config.i18n.default_locale = :es
     config.i18n.fallbacks = { es: :en }

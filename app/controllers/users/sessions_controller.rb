@@ -64,14 +64,14 @@ module Users
       render json: {
         message: 'You are logged in',
         user: ActiveModelSerializers::SerializableResource.new(
-          current_api_user,
+          current_user,
           serializer: UserSerializer
         ).as_json
       }, status: :ok
     end
 
     def respond_to_on_destroy
-      log_out_success && return if current_api_user
+      log_out_success && return if current_user
 
       log_out_failure
     end
