@@ -10,6 +10,10 @@ class UserSerializer < BaseSerializer
     {
       id: resource.id,
       email: resource.email,
+      is_super_admin: resource.is_super_admin,
+      is_active: resource.is_active,
+      is_profile_completed: resource.is_profile_completed,
+      wizard_step: resource.wizard_step,
       user_detail: {
         first_name: resource.user_detail&.first_name,
         last_name: resource.user_detail&.last_name,
@@ -26,7 +30,15 @@ class UserSerializer < BaseSerializer
           postal_code: resource.user_detail&.address&.postal_code
         },
         social_networks: resource.user_detail&.social_networks
-      }
+      },
+      user_academies: resource.user_academies.map do |user_academy|
+        {
+          id: user_academy.id,
+          user_id: user_academy.user_id,
+          academy_id: user_academy.academy_id,
+          role: user_academy.role
+        }
+      end
     }
   end
 end

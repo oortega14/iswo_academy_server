@@ -1,6 +1,11 @@
 class UserAcademy < ApplicationRecord
+  # Associations
   belongs_to :user
-  belongs_to :academy
+  belongs_to :academy, optional: true
 
-  enum role: { student: 0, professor: 1, admin: 2 }
+  # Validations
+  validates :role, presence: true
+
+  # Enums
+  enum :role, { student: 0, professor: 1, admin: 2 }
 end

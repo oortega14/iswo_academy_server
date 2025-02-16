@@ -5,10 +5,12 @@ class User < ApplicationRecord
 
   # Associations
   has_one :user_detail, dependent: :destroy
-  belongs_to :academy, optional: true
+  has_many :user_academies, dependent: :destroy
+  has_many :academies, through: :user_academies
 
   # Nested attributes
   accepts_nested_attributes_for :user_detail
+  accepts_nested_attributes_for :user_academies
 
   # Methods
   def super_admin?

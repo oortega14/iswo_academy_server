@@ -135,7 +135,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["academy_id"], name: "index_user_academies_on_academy_id"
-    t.index ["user_id"], name: "index_user_academies_on_user_id", unique: true
+    t.index ["user_id"], name: "index_user_academies_on_user_id"
   end
 
   create_table "user_details", force: :cascade do |t|
@@ -157,7 +157,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.boolean "is_active", default: true
     t.boolean "is_super_admin", default: false
     t.boolean "is_profile_completed", default: false
-    t.integer "wizard_step", default: 1
+    t.integer "wizard_step", default: 0
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

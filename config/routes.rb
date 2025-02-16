@@ -19,7 +19,7 @@ Rails.application.routes.draw do
                    format: :json
                  }
 
-      resources :users, only: %i[index show destroy] do
+      resources :users, only: %i[index show destroy update] do
         get :me, on: :collection
       end
 

@@ -44,7 +44,7 @@ module Users
       create_jwt_cookie(token)
 
       render json: {
-        user: user.as_json
+        user: serialize_item(current_user, UserSerializer)
       }, status: :created
     end
 
