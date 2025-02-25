@@ -13,7 +13,8 @@ Rails.application.routes.draw do
       devise_for :users,
                  controllers: {
                    sessions: 'users/sessions',
-                   registrations: 'users/registrations'
+                   registrations: 'users/registrations',
+                   confirmations: 'api/v1/confirmations'
                  },
                  defaults: {
                    format: :json
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
       end
 
       # Payments routes
-      post "payments/webhook", to: "api/v1/payments#webhook"
+      post 'payments/webhook', to: 'api/v1/payments#webhook'
     end
   end
 end

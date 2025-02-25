@@ -1,0 +1,21 @@
+<div style="text-align: center; margin: 0 auto; font-family: Arial, sans-serif;">
+  <div style="margin-bottom: 20px;">
+    <% attachments.inline['iswo_logo.webp'] = File.read(Rails.root.join("app/assets/images/iswo_logo.webp")) %>
+    <%= image_tag attachments['iswo_logo.webp'].url, style: 'max-width: 200px; height: auto;', alt: 'ISWO Logo' %>
+  </div>
+  <h1 style="background-color: #1a237e; color: white; padding: 20px; text-align: center; margin: 0; width: 100%;">
+    ¡Bienvenido <%= @resource.email %>!
+  </h1>
+
+  <div style="padding: 20px;">
+    <p style="margin: 20px 0;">Gracias por elegir ISWO como tu plataforma de educación. Estamos muy emocionados de que formes parte de nuestra comunidad.</p>
+
+    <p style="margin: 20px 0;">Puedes confirmar tu cuenta de email a través del siguiente botón:</p>
+
+    <div style="text-align: center;">
+      <%= link_to 'Confirmar mi cuenta', 
+          "#{ENV.fetch('FRONT_URL')}/email-confirmation?confirmation_token=#{@token}",
+          style: 'background-color: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;' %>
+    </div>
+  </div>
+</div>

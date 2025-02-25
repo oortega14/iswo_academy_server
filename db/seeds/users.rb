@@ -42,6 +42,7 @@ user = User.new(
     ]
   },
 )
+user.skip_confirmation!
 user.save!
 
 p 'Users finalizado'

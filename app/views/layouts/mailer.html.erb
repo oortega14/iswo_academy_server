@@ -3,11 +3,45 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
-      /* Email styles need to be inline */
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        color: '#333333';
+      }
+      .header {
+        background-color: '#f8f9fa';
+        padding: 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .logo {
+        max-width: 200px;
+        height: auto;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: '#007bff';
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="email-container">
+      <div class="header">
+        <%= image_tag 'iswo_logo.webp', class: 'logo', alt: 'Logo de la empresa' %>
+      </div>
+      <div class="content">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
