@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      # Academy Categories routes
+      resources :academy_categories, only: %i[index show]
+
       # Academy routes
       resources :academies do
         member do

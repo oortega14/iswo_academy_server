@@ -17,11 +17,8 @@ module Api
 
       # POST '/api/v1/academies'
       def create
-        unless current_user.is_super_admin?
-          return render json: { error: 'No autorizado' }, status: :forbidden
-        end
-
-        academy = Academy.new(academy_params)
+        debugger
+        academy = Academy.new(academy_params.merge(admin_id: current_user.id))
         if academy.save
           UserAcademy.create!(user: current_user, academy: academy, role: 'admin')
           render json: academy, status: :created
@@ -82,7 +79,7 @@ module Api
       end
 
       def academy_params
-        params.require(:academy).permit(:name, :description)
+        params.require(:academy).permit(:name, :description, :category_id)
       end
     end
   end

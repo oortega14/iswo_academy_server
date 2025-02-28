@@ -103,3 +103,6 @@ es:
     not_supported: Acción no soportada
   test_question:
     unique_validation: No debes poner preguntas iguales
+  base_exceptions:
+    already_admin_in_other_academy: Ya eres administrador de otra academia
+
