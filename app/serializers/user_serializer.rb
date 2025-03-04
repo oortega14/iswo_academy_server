@@ -31,7 +31,7 @@ class UserSerializer < BaseSerializer
         },
         social_networks: resource.user_detail&.social_networks
       },
-      user_academies: resource.user_academies.map do |user_academy|
+      user_academies: resource.user_academies.order(created_at: :desc).map do |user_academy|
         {
           id: user_academy.id,
           user_id: user_academy.user_id,

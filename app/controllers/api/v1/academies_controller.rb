@@ -16,6 +16,7 @@ module Api
 
       # POST '/api/v1/academies'
       def create
+        debugger
         academy = Academy.new(academy_params.merge(admin_id: current_user.id))
         if academy.save
           UserAcademy.create!(user: current_user, academy: academy, role: 'admin')
@@ -25,10 +26,9 @@ module Api
         end
       end
 
-      # PUT '/api/v1/academies/:id'
+      # PATCH '/api/v1/academies/:id'
       def update
         authorize @academy
-        debugger
         if @academy.update(academy_params)
           render json: @academy, status: :ok
         else
