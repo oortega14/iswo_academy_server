@@ -2,7 +2,6 @@ module Api
   module V1
     class AcademiesController < BaseController
       before_action :set_academy, only: %i[show update destroy add_professor enroll_student]
-      before_action :authorize_admin!, only: %i[update destroy add_professor]
 
       # GET '/api/v1/academies'
       def index
@@ -17,7 +16,6 @@ module Api
 
       # POST '/api/v1/academies'
       def create
-        debugger
         academy = Academy.new(academy_params.merge(admin_id: current_user.id))
         if academy.save
           UserAcademy.create!(user: current_user, academy: academy, role: 'admin')
@@ -29,6 +27,8 @@ module Api
 
       # PUT '/api/v1/academies/:id'
       def update
+        authorize @academy
+        debugger
         if @academy.update(academy_params)
           render json: @academy, status: :ok
         else
@@ -72,14 +72,22 @@ module Api
         render json: { error: 'Academia no encontrada' }, status: :not_found
       end
 
-      def authorize_admin!
-        unless current_user.is_super_admin? || current_user.user_academy&.admin?
-          render json: { error: 'No autorizado' }, status: :forbidden
-        end
-      end
-
       def academy_params
-        params.require(:academy).permit(:name, :description, :category_id)
+        params.require(:academy).permit(
+          :name,
+          :description,
+          :category_id,
+          :palette_id,
+          academy_configurations_attributes: [
+            :id,
+            :domain,
+            :contact_email,
+            :contact_phone,
+            :contact_name,
+            :color_palette,
+            :_destroy
+          ]
+        )
       end
     end
   end

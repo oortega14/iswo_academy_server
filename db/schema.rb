@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
 
   create_table "academy_configurations", force: :cascade do |t|
     t.string "domain", null: false
-    t.jsonb "colors", default: {}
+    t.string "color_palette", null: false
     t.string "contact_name"
     t.string "contact_email"
     t.string "contact_phone"
