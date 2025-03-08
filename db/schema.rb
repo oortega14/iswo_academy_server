@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_07_215158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,34 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.index ["domain"], name: "index_academy_configurations_on_domain", unique: true
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
   create_table "addresses", force: :cascade do |t|
     t.bigint "user_detail_id", null: false
     t.string "address"
@@ -55,6 +83,75 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_detail_id"], name: "index_addresses_on_user_detail_id"
+  end
+
+  create_table "assessments", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "course_section_id"
+    t.string "type"
+    t.string "name"
+    t.integer "time_limit"
+    t.integer "approve_with", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_assessments_on_course_id"
+    t.index ["course_section_id"], name: "index_assessments_on_course_section_id"
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.string "attachable_type", null: false
+    t.bigint "attachable_id", null: false
+    t.string "type", null: false
+    t.string "url"
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+  end
+
+  create_table "certificate_configurations", force: :cascade do |t|
+    t.string "course_name"
+    t.string "course_time"
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_certificate_configurations_on_course_id"
+  end
+
+  create_table "certificates", force: :cascade do |t|
+    t.string "student_name"
+    t.string "course_title"
+    t.float "duration"
+    t.date "end_date"
+    t.uuid "code"
+    t.bigint "course_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_certificates_on_course_id"
+    t.index ["user_id"], name: "index_certificates_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.text "body", null: false
+    t.bigint "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "course_details", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.string "description"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_details_on_course_id"
   end
 
   create_table "course_purchases", force: :cascade do |t|
@@ -68,9 +165,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.index ["user_id"], name: "index_course_purchases_on_user_id"
   end
 
+  create_table "course_sections", force: :cascade do |t|
+    t.string "name"
+    t.integer "position"
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_sections_on_course_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
+    t.integer "status", default: 0
     t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
     t.bigint "academy_id", null: false
     t.bigint "creator_id", null: false
@@ -80,12 +187,67 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.index ["creator_id"], name: "index_courses_on_creator_id"
   end
 
+  create_table "courses_learning_routes", id: false, force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "learning_route_id", null: false
+    t.index ["course_id", "learning_route_id"], name: "idx_on_course_id_learning_route_id_d32053c5e3"
+    t.index ["learning_route_id", "course_id"], name: "idx_on_learning_route_id_course_id_a17175d1d9"
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "course_id", null: false
+    t.integer "status", default: 0
+    t.integer "progress", default: 0
+    t.datetime "purchased_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_enrollments_on_course_id"
+    t.index ["user_id", "course_id"], name: "index_enrollments_on_user_id_and_course_id", unique: true
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti"
     t.datetime "exp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_denylists_on_jti"
+  end
+
+  create_table "learning_routes", force: :cascade do |t|
+    t.bigint "academy_id", null: false
+    t.string "name", null: false
+    t.string "description", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academy_id"], name: "index_learning_routes_on_academy_id"
+  end
+
+  create_table "lesson_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "lesson_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.integer "progress_seconds", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_lesson_progresses_on_lesson_id"
+    t.index ["user_id", "lesson_id"], name: "index_lesson_progresses_on_user_id_and_lesson_id", unique: true
+    t.index ["user_id"], name: "index_lesson_progresses_on_user_id"
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "position"
+    t.boolean "visible", default: false
+    t.bigint "course_section_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_section_id"], name: "index_lessons_on_course_section_id"
   end
 
   create_table "professor_invitations", force: :cascade do |t|
@@ -97,6 +259,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.datetime "updated_at", null: false
     t.index ["academy_id"], name: "index_professor_invitations_on_academy_id"
     t.index ["token"], name: "index_professor_invitations_on_token", unique: true
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "description"
+    t.integer "stars", default: 0
+    t.bigint "course_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_reviews_on_course_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "social_networks", force: :cascade do |t|
@@ -117,6 +290,30 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.index ["user_id"], name: "index_student_enrollments_on_user_id"
   end
 
+  create_table "student_task_comments", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "student_task_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_task_id"], name: "index_student_task_comments_on_student_task_id"
+    t.index ["user_id"], name: "index_student_task_comments_on_user_id"
+  end
+
+  create_table "student_tasks", force: :cascade do |t|
+    t.integer "status"
+    t.float "grade"
+    t.datetime "due_date"
+    t.bigint "teacher_task_id", null: false
+    t.bigint "course_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_student_tasks_on_course_id"
+    t.index ["student_id"], name: "index_student_tasks_on_student_id"
+    t.index ["teacher_task_id"], name: "index_student_tasks_on_teacher_task_id"
+  end
+
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "academy_id", null: false
@@ -126,6 +323,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.datetime "updated_at", null: false
     t.index ["academy_id"], name: "index_subscriptions_on_academy_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "teacher_tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "due_date"
+    t.integer "status", default: 0
+    t.datetime "deleted_at"
+    t.bigint "course_id", null: false
+    t.bigint "course_section_id"
+    t.bigint "teacher_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_teacher_tasks_on_course_id"
+    t.index ["course_section_id"], name: "index_teacher_tasks_on_course_section_id"
+    t.index ["teacher_id"], name: "index_teacher_tasks_on_teacher_id"
   end
 
   create_table "user_academies", force: :cascade do |t|
@@ -158,6 +371,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
     t.boolean "is_super_admin", default: false
     t.boolean "is_profile_completed", default: false
     t.integer "wizard_step", default: 0
+    t.integer "active_academy_id"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -186,17 +400,44 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_09_135124) do
   add_foreign_key "academies", "academy_categories", column: "category_id"
   add_foreign_key "academies", "users", column: "admin_id"
   add_foreign_key "academy_configurations", "academies"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "user_details"
+  add_foreign_key "assessments", "course_sections"
+  add_foreign_key "assessments", "courses"
+  add_foreign_key "certificate_configurations", "courses"
+  add_foreign_key "certificates", "courses"
+  add_foreign_key "certificates", "users"
+  add_foreign_key "comments", "comments", column: "parent_id"
+  add_foreign_key "comments", "users"
+  add_foreign_key "course_details", "courses"
   add_foreign_key "course_purchases", "courses"
   add_foreign_key "course_purchases", "users"
+  add_foreign_key "course_sections", "courses"
   add_foreign_key "courses", "academies"
   add_foreign_key "courses", "users", column: "creator_id"
+  add_foreign_key "enrollments", "courses"
+  add_foreign_key "enrollments", "users"
+  add_foreign_key "learning_routes", "academies"
+  add_foreign_key "lesson_progresses", "lessons"
+  add_foreign_key "lesson_progresses", "users"
+  add_foreign_key "lessons", "course_sections"
   add_foreign_key "professor_invitations", "academies"
+  add_foreign_key "reviews", "courses"
+  add_foreign_key "reviews", "users"
   add_foreign_key "social_networks", "user_details"
   add_foreign_key "student_enrollments", "academies"
   add_foreign_key "student_enrollments", "users"
+  add_foreign_key "student_task_comments", "student_tasks"
+  add_foreign_key "student_task_comments", "users"
+  add_foreign_key "student_tasks", "courses"
+  add_foreign_key "student_tasks", "teacher_tasks"
+  add_foreign_key "student_tasks", "users", column: "student_id"
   add_foreign_key "subscriptions", "academies"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "teacher_tasks", "course_sections"
+  add_foreign_key "teacher_tasks", "courses"
+  add_foreign_key "teacher_tasks", "users", column: "teacher_id"
   add_foreign_key "user_academies", "academies"
   add_foreign_key "user_academies", "users"
   add_foreign_key "user_details", "users"

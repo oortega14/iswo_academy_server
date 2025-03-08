@@ -56,6 +56,10 @@ class ApplicationController < ActionController::API
     nil
   end
 
+  def current_academy
+    @current_academy ||= current_user&.active_academy
+  end
+
   def user_signed_in?
     current_user.present?
   end

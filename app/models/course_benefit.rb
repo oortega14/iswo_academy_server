@@ -1,0 +1,2 @@
+class CourseBenefit < CourseDetail
+end

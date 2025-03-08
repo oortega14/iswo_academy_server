@@ -36,6 +36,13 @@ class Api::V1::UsersController < ApplicationController
     render json: serialize_item(current_user, UserSerializer), status: :ok
   end
 
+  # POST '/api/v1/users/set_active_academy'
+  def set_active_academy
+    current_user.update!(active_academy_id: params[:academy_id])
+    user_academy = UserAcademy.find_by(user: current_user, academy_id: params[:academy_id])
+    render json: serialize_item(user_academy, UserAcademySerializer), status: :ok
+  end
+
   private
 
   def user_params

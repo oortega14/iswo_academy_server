@@ -38,6 +38,9 @@ gem 'bootsnap', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem 'rack-cors'
 
+# acts_as_list gem
+gem 'acts_as_list'
+
 # Authorization
 gem 'pundit', '~> 2.4'
 
@@ -50,6 +53,9 @@ gem 'devise-jwt', '~> 0.12.1'
 
 # Soft delete
 gem 'paranoia'
+
+# User Active storage S3
+gem 'aws-sdk-s3', require: false
 
 # Manager api responses
 gem 'jsonapi_responses', '~> 0.1.2'

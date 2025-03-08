@@ -1,6 +1,7 @@
 module Api
   module V1
     class AcademiesController < BaseController
+      # Before Actions
       before_action :set_academy, only: %i[show update destroy add_professor enroll_student]
 
       # GET '/api/v1/academies'
@@ -11,15 +12,14 @@ module Api
 
       # GET '/api/v1/academies/:id'
       def show
-        render json: @academy, status: :ok
+        render_with(@academy)
       end
 
       # POST '/api/v1/academies'
       def create
-        debugger
         academy = Academy.new(academy_params.merge(admin_id: current_user.id))
         if academy.save
-          UserAcademy.create!(user: current_user, academy: academy, role: 'admin')
+          UserAcademy.find(params[:user_academy_id]).update!(user: current_user, academy: academy, role: 'admin')
           render json: academy, status: :created
         else
           render json: { errors: academy.errors.full_messages }, status: :unprocessable_entity
@@ -77,15 +77,17 @@ module Api
           :name,
           :description,
           :category_id,
-          :palette_id,
-          academy_configurations_attributes: [
-            :id,
-            :domain,
-            :contact_email,
-            :contact_phone,
-            :contact_name,
-            :color_palette,
-            :_destroy
+          :slogan,
+          :logo,
+          :banner,
+          academy_configuration_attributes: %i[
+            id
+            domain
+            contact_email
+            contact_phone
+            contact_name
+            color_palette
+            _destroy
           ]
         )
       end

@@ -25,6 +25,25 @@ Rails.application.routes.draw do
 
       resources :users, only: %i[index show destroy update] do
         get :me, on: :collection
+        post :set_active_academy, on: :collection
+      end
+
+      resources :user_academies, only: %i[index] do
+        get :get_role, on: :collection
+      end
+
+      # Learning Routes routes
+      resources :learning_routes
+
+      # Courses routes
+      resources :courses do
+        # Course Sections routes
+        resources :course_sections do
+          member do
+            post 'move_up'
+            post 'move_down'
+          end
+        end
       end
 
       # Payments routes

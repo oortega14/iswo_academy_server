@@ -24,6 +24,7 @@ module Users
     end
 
     def destroy
+      current_user.update!(active_academy_id: nil)
       cookies.delete(:jwt)
       render json: { message: 'Logged out successfully' }, status: :ok
     end

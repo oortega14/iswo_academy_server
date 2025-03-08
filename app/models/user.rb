@@ -5,8 +5,15 @@ class User < ApplicationRecord
 
   # Associations
   has_one :user_detail, dependent: :destroy
+
+  has_many :lesson_progresses
+  has_many :lessons, through: :lesson_progresses
+
   has_many :user_academies, dependent: :destroy
   has_many :academies, through: :user_academies
+  has_many :certificates, dependent: :destroy
+
+  belongs_to :active_academy, class_name: 'Academy', optional: true
 
   # Nested attributes
   accepts_nested_attributes_for :user_detail

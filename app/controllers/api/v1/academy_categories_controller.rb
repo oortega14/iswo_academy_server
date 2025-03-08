@@ -4,13 +4,13 @@ module Api
       # GET '/api/v1/academy_categories'
       def index
         academy_categories = AcademyCategory.all
-        render json: academy_categories, status: :ok
+        render_with(academy_categories)
       end
 
       # GET '/api/v1/academies/:id'
       def show
         academy_category = AcademyCategory.find(params[:id])
-        render json: academy_category, status: :ok
+        render_with(academy_category)
       end
     end
   end

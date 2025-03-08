@@ -6,10 +6,6 @@ class ApplicationPolicy
     @record = record
   end
 
-  def super_admin?
-    user&.is_super_admin?
-  end
-
   # Application Policy Scope
   class Scope
     attr_reader :user, :scope
