@@ -1,4 +1,4 @@
-class CourseSerializer < BaseSerializer
+class LessonSerializer < BaseSerializer
   def serializable_hash
     full_hash
   end
@@ -11,23 +11,22 @@ class CourseSerializer < BaseSerializer
       id: resource.id,
       title: resource.title,
       description: resource.description,
-      price: resource.price,
-      status: resource.status,
-      academy_id: resource.academy_id,
-      creator_id: resource.creator_id,
-      banner: resource.banner.url,
-      promotional_image: resource.promotional_image.url,
-      course_benefits: resource.course_benefits,
-      course_goals: resource.course_goals,
-      attachments: attachments,
-      learning_routes: resource.learning_routes,
+      position: resource.position,
+      visible: resource.visible,
+      course_section_id: resource&.course_section_id,
+      video_class: video_class_attachment,
+      material_attachments: material_attachments,
       created_at: resource.created_at,
       updated_at: resource.updated_at
     }
   end
 
-  def attachments
-    resource.attachments.map do |attachment|
+  def video_class_attachment
+    resource.attachments.find_by(category: 'video_class').url || resource.attachments.find_by(category: 'video_class').file.url
+  end
+
+  def material_attachments
+    resource.attachments.where(category: 'study_material').map do |attachment|
       {
         id: attachment.id,
         attachable_type: attachment.attachable_type,

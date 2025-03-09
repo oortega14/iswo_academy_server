@@ -3,6 +3,7 @@ class CreateAcademies < ActiveRecord::Migration[7.2]
     create_table :academies do |t|
       t.string :name, null: false
       t.text :description
+      t.string :slogan
       t.references :admin, null: false, foreign_key: { to_table: :users }
       t.references :category, null: false, foreign_key: { to_table: :academy_categories }
 

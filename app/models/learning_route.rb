@@ -11,8 +11,8 @@ class LearningRoute < ApplicationRecord
   validates :status, presence: true
 
   # Enums
-  enum status: {
+  enum :status, {
     draft: 0,
     published: 1
-  }, _prefix: :route
+  }, prefix: :route
 end

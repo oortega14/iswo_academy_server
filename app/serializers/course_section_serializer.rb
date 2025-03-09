@@ -20,6 +20,7 @@ class CourseSectionSerializer < BaseSerializer
       name: resource.name,
       position: resource.position,
       course_id: resource.course_id,
+      lessons: resource.lessons,
       created_at: resource.created_at,
       updated_at: resource.updated_at
     }

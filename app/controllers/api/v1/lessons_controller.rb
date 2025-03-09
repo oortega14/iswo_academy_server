@@ -66,9 +66,7 @@ module Api
                                        :description,
                                        :course_section_id,
                                        :visible,
-                                       :video,
-                                       :external_video_url,
-                                       attachments_attributes: %i[id file attachable_id attachable_type url _destroy])
+                                       attachments_attributes: %i[id file attachable_id attachable_type category type url _destroy])
       end
 
       def set_lesson

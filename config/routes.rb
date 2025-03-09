@@ -10,6 +10,27 @@ Rails.application.routes.draw do
           post 'add_professor'
           post 'enroll_student'
         end
+        # Courses routes
+        resources :courses do
+          # Course Sections routes
+          resources :course_sections do
+            member do
+              post 'move_up'
+              post 'move_down'
+            end
+          end
+
+          # Lesson routes
+          resources :lessons do
+            member do
+              post 'move_up'
+              post 'move_down'
+            end
+          end
+        end
+
+        # Learning Routes routes
+        resources :learning_routes
       end
 
       # User routes
@@ -30,20 +51,6 @@ Rails.application.routes.draw do
 
       resources :user_academies, only: %i[index] do
         get :get_role, on: :collection
-      end
-
-      # Learning Routes routes
-      resources :learning_routes
-
-      # Courses routes
-      resources :courses do
-        # Course Sections routes
-        resources :course_sections do
-          member do
-            post 'move_up'
-            post 'move_down'
-          end
-        end
       end
 
       # Payments routes

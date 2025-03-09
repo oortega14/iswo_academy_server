@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_07_215158) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "academies", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
+    t.string "slogan"
     t.bigint "admin_id", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
@@ -107,6 +108,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_07_215158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.string "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "badges_users", id: false, force: :cascade do |t|
+    t.bigint "badge_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["badge_id", "user_id"], name: "index_badges_users_on_badge_id_and_user_id"
+    t.index ["user_id", "badge_id"], name: "index_badges_users_on_user_id_and_badge_id"
   end
 
   create_table "certificate_configurations", force: :cascade do |t|
@@ -248,6 +264,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_07_215158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_section_id"], name: "index_lessons_on_course_section_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.string "message", null: false
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
 
   create_table "professor_invitations", force: :cascade do |t|

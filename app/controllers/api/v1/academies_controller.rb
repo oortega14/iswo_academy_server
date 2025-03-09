@@ -12,7 +12,7 @@ module Api
 
       # GET '/api/v1/academies/:id'
       def show
-        render_with(@academy)
+        render_with(@academy, context: { view: view_param })
       end
 
       # POST '/api/v1/academies'
@@ -90,6 +90,10 @@ module Api
             _destroy
           ]
         )
+      end
+
+      def view_param
+        params[:view]&.to_sym
       end
     end
   end

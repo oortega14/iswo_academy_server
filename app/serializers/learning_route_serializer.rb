@@ -13,6 +13,7 @@ class LearningRouteSerializer < BaseSerializer
       description: resource.description,
       status: resource.status,
       academy_id: resource.academy_id,
+      courses: resource.courses,
       created_at: resource.created_at,
       updated_at: resource.updated_at
     }
