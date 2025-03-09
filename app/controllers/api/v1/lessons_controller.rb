@@ -2,12 +2,12 @@ module Api
   module V1
     class LessonsController < ApplicationController
       # Callbacks
-      before_action :set_lesson, only: %i[show update destroy update_section update_visibility]
+      before_action :set_lesson, only: %i[show update destroy update_section update_visibility move_up move_down]
 
       # GET: '/api/lessons'
       def index
         lessons = policy_scope(Lesson)
-        filtered_lessons = CustomFilters::FilterService.call(lessons, params)
+        filtered_lessons = CustomFilters::FilterService.call(lessons, params).order(:position)
 
         render_with(filtered_lessons)
       end
@@ -43,19 +43,36 @@ module Api
         render_with(@lesson)
       end
 
-      # PATCH: '/api/lessons/:id/update_visibility'
+      # PATCH: '/api/v1/academies/:academy_id/courses/:course_id/course_sections/:course_section_id/lessons/:id/update_visibility'
       def update_visibility
         authorize @lesson
 
-        @lesson.update!(visible: params[:visible])
+        @lesson.toggle!(:visible)
         render json: { message: I18n.t('record.update.success') }, status: :ok
       end
 
-      # PATCH: '/api/lessons/:id/update_position'
-      def update_position
-        Lessons::LessonPositionUpdater.new(params[:sorted_lessons], current_user).call
+      # POST '/api/v1/academies/:academy_id/courses/:course_id/course_sections/:course_section_id/lessons/:id/move_up'
+      def move_up
+        authorize @lesson
 
-        render json: { message: I18n.t('record.update.success') }, status: :ok
+        if @lesson.first?
+          raise ApiExceptions::BaseException.new(:ALREADY_FIRST, [], {})
+        else
+          @lesson.move_higher
+          render json: { message: I18n.t('record.update.success') }, status: :ok
+        end
+      end
+
+      # POST '/api/v1/academies/:academy_id/courses/:course_id/course_sections/:course_section_id/lessons/:id/move_down'
+      def move_down
+        authorize @lesson
+
+        if @lesson.last?
+          raise ApiExceptions::BaseException.new(:ALREADY_LAST, [], {})
+        else
+          @lesson.move_lower
+          render json: { message: I18n.t('record.update.success') }, status: :ok
+        end
       end
 
       private

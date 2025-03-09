@@ -32,8 +32,12 @@ class CourseSectionPolicy < ApplicationPolicy
     user.superadmin? || user_has_permission?
   end
 
-  def user_courses?
-    record.first&.user_id == user.id
+  def move_up?
+    user.superadmin? || user_has_permission?
+  end
+
+  def move_down?
+    user.superadmin? || user_has_permission?
   end
 
   private

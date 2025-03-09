@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :user_academies, dependent: :destroy
   has_many :academies, through: :user_academies
   has_many :certificates, dependent: :destroy
-
+  has_many :enrollments, dependent: :destroy
   belongs_to :active_academy, class_name: 'Academy', optional: true
 
   # Nested attributes

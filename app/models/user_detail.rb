@@ -15,4 +15,8 @@ class UserDetail < ApplicationRecord
   # Validations
   validates :username, :dni, presence: true, uniqueness: true, on: :update
   validates :first_name, :last_name, :birth_date, :phone, :gender, presence: true, on: :update
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

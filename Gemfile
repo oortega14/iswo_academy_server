@@ -54,6 +54,9 @@ gem 'devise-jwt', '~> 0.12.1'
 # Soft delete
 gem 'paranoia'
 
+# Excel reader
+gem 'roo'
+
 # User Active storage S3
 gem 'aws-sdk-s3', require: false
 

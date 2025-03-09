@@ -17,7 +17,9 @@ module ApiExceptions
         ALREADY_ADMIN_IN_OTHER_ACADEMY: { code: 2003, message: I18n.t('base_exceptions.already_admin_in_other_academy') },
         OPTIONS_FAILED: { code: 2004, message: I18n.t('base_exceptions.options_failed') },
         STUDENTS_NOT_CREATED: { code: 2005, message: I18n.t('base_exceptions.students_not_created') },
-        REPEATED_QUESTION: { code: 2006, message: I18n.t('base_exceptions.repeated_question') }
+        REPEATED_QUESTION: { code: 2006, message: I18n.t('base_exceptions.repeated_question') },
+        ALREADY_FIRST: { code: 2007, message: I18n.t('base_exceptions.already_first') },
+        ALREADY_LAST: { code: 2008, message: I18n.t('base_exceptions.already_last') }
       }
     end
 

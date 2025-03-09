@@ -6,7 +6,7 @@ module Api
     # GET '/api/course_sections'
     def index
       sections = current_user ? policy_scope(CourseSection) : CourseSection.all
-      filtered_sections = CustomFilters::FilterService.call(sections, params)
+      filtered_sections = CustomFilters::FilterService.call(sections, params).order(:position)
       render_with(filtered_sections, context: { view: view_param })
     end
 
@@ -40,20 +40,28 @@ module Api
       render_with(@section)
     end
 
-    # POST '/api/course_sections/:id/move_up'
+    # POST '/api/v1/academies/:academy_id/courses/:course_id/course_sections/:id/move_up'
     def move_up
       authorize @section
 
-      @section.move_higher
-      render json: { message: I18n.t('record.update.success') }, status: :ok
+      if @section.first?
+        raise ApiExceptions::BaseException.new(:ALREADY_FIRST, [], {})
+      else
+        @section.move_higher
+        render json: { message: I18n.t('record.update.success') }, status: :ok
+      end
     end
 
-    # POST '/api/course_sections/:id/move_down'
+    # POST '/api/v1/academies/:academy_id/courses/:course_id/course_sections/:id/move_down'
     def move_down
       authorize @section
 
-      @section.move_lower
-      render json: { message: I18n.t('record.update.success') }, status: :ok
+      if @section.last?
+        raise ApiExceptions::BaseException.new(:ALREADY_LAST, [], {})
+      else
+        @section.move_lower
+        render json: { message: I18n.t('record.update.success') }, status: :ok
+      end
     end
 
     private

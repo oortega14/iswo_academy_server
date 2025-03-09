@@ -105,4 +105,6 @@ es:
     unique_validation: No debes poner preguntas iguales
   base_exceptions:
     already_admin_in_other_academy: Ya eres administrador de otra academia
+    already_first: Ya es el primer registro
+    already_last: Ya es el último registro
 

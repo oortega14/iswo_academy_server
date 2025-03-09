@@ -1,5 +1,8 @@
 # Define Lesson Model
 class Lesson < ApplicationRecord
+  # acts_as_list gem
+  acts_as_list scope: :course_section
+
   # Associations
   has_many :comments, as: :commentable, dependent: :destroy
 
@@ -21,8 +24,6 @@ class Lesson < ApplicationRecord
 
   # Callbacks
   # after_create :create_student_trackers
-
-  acts_as_list scope: :course_section
 
   private
 

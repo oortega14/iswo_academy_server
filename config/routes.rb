@@ -15,16 +15,16 @@ Rails.application.routes.draw do
           # Course Sections routes
           resources :course_sections do
             member do
-              post 'move_up'
-              post 'move_down'
+              patch 'move_up'
+              patch 'move_down'
             end
-          end
-
-          # Lesson routes
-          resources :lessons do
-            member do
-              post 'move_up'
-              post 'move_down'
+            # Lesson routes
+            resources :lessons do
+              member do
+                patch 'update_visibility'
+                patch 'move_up'
+                patch 'move_down'
+              end
             end
           end
         end
@@ -32,6 +32,17 @@ Rails.application.routes.draw do
         # Learning Routes routes
         resources :learning_routes
       end
+
+      # Enrollments routes
+      resources :enrollments do
+        collection do
+          post 'create_simple'
+          post 'create_multiple'
+        end
+      end
+
+      # Templates routes
+      get '/templates/students_template', to: 'templates#students_template'
 
       # User routes
       devise_for :users,

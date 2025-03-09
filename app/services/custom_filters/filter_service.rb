@@ -6,7 +6,8 @@ module CustomFilters
     COURSE_FILTERABLE_MODELS = [
       CourseSection,
       TeacherTask,
-      CertificateConfiguration
+      CertificateConfiguration,
+      Enrollment
     ].freeze
     COURSE_SECTION_FILTERABLE_MODELS = [Lesson].freeze
     LESSON_FILTERABLE_MODELS = [Comment].freeze
