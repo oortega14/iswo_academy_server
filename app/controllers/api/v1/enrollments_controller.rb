@@ -50,6 +50,12 @@ module Api
         render json: { message: I18n.t('record.create.success') }, status: :created
       end
 
+      # DELETE: '/api/enrollments/:id
+      def destroy
+        @enrollment.destroy
+        render json: { message: I18n.t('record.destroy.success') }, status: :ok
+      end
+
       private
 
       def set_enrollment

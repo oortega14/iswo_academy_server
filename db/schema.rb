@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_09_232316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,16 +87,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
   end
 
   create_table "assessments", force: :cascade do |t|
+    t.bigint "teacher_id", null: false
     t.bigint "course_id", null: false
     t.bigint "course_section_id"
     t.string "type"
     t.string "name"
     t.integer "time_limit"
-    t.integer "approve_with", default: 0
+    t.integer "max_attempts", default: 3, null: false
+    t.integer "retry_after", default: 30, null: false
+    t.integer "approve_with", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_assessments_on_course_id"
     t.index ["course_section_id"], name: "index_assessments_on_course_section_id"
+    t.index ["teacher_id"], name: "index_assessments_on_teacher_id"
   end
 
   create_table "attachments", force: :cascade do |t|
@@ -159,6 +163,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "correct_answers", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.string "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_correct_answers_on_question_id"
   end
 
   create_table "course_details", force: :cascade do |t|
@@ -290,6 +302,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
     t.index ["token"], name: "index_professor_invitations_on_token", unique: true
   end
 
+  create_table "question_options", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.string "content", null: false
+    t.boolean "correct", default: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "assessment_id", null: false
+    t.text "content", null: false
+    t.integer "question_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessment_id"], name: "index_questions_on_assessment_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "description"
     t.integer "stars", default: 0
@@ -310,6 +341,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
     t.index ["user_detail_id"], name: "index_social_networks_on_user_detail_id"
   end
 
+  create_table "student_assessments", force: :cascade do |t|
+    t.bigint "assessment_id", null: false
+    t.bigint "student_id", null: false
+    t.integer "score", default: 0
+    t.integer "status", default: 0
+    t.string "type"
+    t.datetime "started_at"
+    t.datetime "last_attempt_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessment_id"], name: "index_student_assessments_on_assessment_id"
+    t.index ["student_id"], name: "index_student_assessments_on_student_id"
+  end
+
   create_table "student_enrollments", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "academy_id", null: false
@@ -317,6 +363,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
     t.datetime "updated_at", null: false
     t.index ["academy_id"], name: "index_student_enrollments_on_academy_id"
     t.index ["user_id"], name: "index_student_enrollments_on_user_id"
+  end
+
+  create_table "student_responses", force: :cascade do |t|
+    t.bigint "student_assessment_id", null: false
+    t.bigint "question_id", null: false
+    t.bigint "question_option_id"
+    t.text "answer_text"
+    t.boolean "correct", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_student_responses_on_question_id"
+    t.index ["question_option_id"], name: "index_student_responses_on_question_option_id"
+    t.index ["student_assessment_id"], name: "index_student_responses_on_student_assessment_id"
   end
 
   create_table "student_task_comments", force: :cascade do |t|
@@ -434,11 +493,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
   add_foreign_key "addresses", "user_details"
   add_foreign_key "assessments", "course_sections"
   add_foreign_key "assessments", "courses"
+  add_foreign_key "assessments", "users", column: "teacher_id"
   add_foreign_key "certificate_configurations", "courses"
   add_foreign_key "certificates", "courses"
   add_foreign_key "certificates", "users"
   add_foreign_key "comments", "comments", column: "parent_id"
   add_foreign_key "comments", "users"
+  add_foreign_key "correct_answers", "questions"
   add_foreign_key "course_details", "courses"
   add_foreign_key "course_purchases", "courses"
   add_foreign_key "course_purchases", "users"
@@ -452,11 +513,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_08_040257) do
   add_foreign_key "lesson_progresses", "users"
   add_foreign_key "lessons", "course_sections"
   add_foreign_key "professor_invitations", "academies"
+  add_foreign_key "question_options", "questions"
+  add_foreign_key "questions", "assessments"
   add_foreign_key "reviews", "courses"
   add_foreign_key "reviews", "users"
   add_foreign_key "social_networks", "user_details"
+  add_foreign_key "student_assessments", "assessments"
+  add_foreign_key "student_assessments", "users", column: "student_id"
   add_foreign_key "student_enrollments", "academies"
   add_foreign_key "student_enrollments", "users"
+  add_foreign_key "student_responses", "question_options"
+  add_foreign_key "student_responses", "questions"
+  add_foreign_key "student_responses", "student_assessments"
   add_foreign_key "student_task_comments", "student_tasks"
   add_foreign_key "student_task_comments", "users"
   add_foreign_key "student_tasks", "courses"

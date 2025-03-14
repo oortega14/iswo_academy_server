@@ -22,6 +22,7 @@ class AcademySerializer < BaseSerializer
       description: resource.description,
       admin_id: resource.admin_id,
       category_id: resource.category_id,
+      logo: resource.logo.url,
       academy_configuration: resource.academy_configuration,
       created_at: resource.created_at,
       updated_at: resource.updated_at

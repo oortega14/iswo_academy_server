@@ -1,0 +1,2 @@
+class StudentFinalExam < StudentAssessment
+end

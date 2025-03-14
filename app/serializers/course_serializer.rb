@@ -1,6 +1,11 @@
 class CourseSerializer < BaseSerializer
   def serializable_hash
-    full_hash
+    case context[:view]
+    when :summary
+      summary_hash
+    else
+      full_hash
+    end
   end
 
   private
@@ -21,8 +26,18 @@ class CourseSerializer < BaseSerializer
       course_goals: resource.course_goals,
       attachments: attachments,
       learning_routes: resource.learning_routes,
+      final_exam: resource.final_exam,
       created_at: resource.created_at,
       updated_at: resource.updated_at
+    }
+  end
+
+  # Summary Hash response
+  def summary_hash
+    {
+      id: resource.id,
+      title: resource.title,
+      final_exam: resource.final_exam
     }
   end
 

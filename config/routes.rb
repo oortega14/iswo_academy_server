@@ -33,6 +33,25 @@ Rails.application.routes.draw do
         resources :learning_routes
       end
 
+      # Assessments routes
+      resources :quizzes
+      resources :final_exams
+      resources :questions
+
+      resources :student_quizzes, only: [:index, :show] do
+        member do
+          post :start
+          post :submit
+        end
+      end
+
+      resources :student_final_exams, only: [:index, :show] do
+        member do
+          post :start
+          post :submit
+        end
+      end
+
       # Enrollments routes
       resources :enrollments do
         collection do

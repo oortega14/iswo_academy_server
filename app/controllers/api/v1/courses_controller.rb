@@ -24,7 +24,7 @@ module Api
         @course = Course.find(params[:id])
         authorize(@course)
 
-        render_with(@course)
+        render_with(@course, context: { view: view_param })
       end
 
       # PATCH /courses/:id
@@ -71,6 +71,10 @@ module Api
           ],
           learning_route_ids: []
         )
+      end
+
+      def view_param
+        params[:view]&.to_sym
       end
     end
   end

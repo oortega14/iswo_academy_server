@@ -1,0 +1,2 @@
+class StudentQuiz < StudentAssessment
+end

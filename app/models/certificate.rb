@@ -5,7 +5,7 @@ class Certificate < ApplicationRecord
   belongs_to :user
 
   # Associated blobs
-  has_one_attached :file
+  has_one_attached :certificate_file
 
   # Callbacks
   after_create :create_file
@@ -16,7 +16,7 @@ class Certificate < ApplicationRecord
       filename: 'certificate.pdf',
       content_type: 'pdf'
     )
-    file.attach(pdf_file)
+    certificate_file.attach(pdf_file)
     save
     file_path = "public/certificates/certificate_#{id}.pdf"
     File.delete(file_path) if File.exist?(file_path)

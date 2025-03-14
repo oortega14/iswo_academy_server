@@ -1,4 +1,5 @@
 class FinalExam < Assessment
+  # Validations
   validate :no_course_section_allowed
 
   private

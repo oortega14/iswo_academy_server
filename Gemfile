@@ -57,6 +57,9 @@ gem 'paranoia'
 # Excel reader
 gem 'roo'
 
+# CSV reader
+gem 'csv'
+
 # User Active storage S3
 gem 'aws-sdk-s3', require: false
 

@@ -21,6 +21,7 @@ class CourseSectionSerializer < BaseSerializer
       position: resource.position,
       course_id: resource.course_id,
       lessons: resource.lessons.order(:position),
+      quiz: resource.quiz,
       created_at: resource.created_at,
       updated_at: resource.updated_at
     }
@@ -31,7 +32,8 @@ class CourseSectionSerializer < BaseSerializer
     {
       id: resource.id,
       name: resource.name,
-      position: resource.position
+      position: resource.position,
+      quiz: resource.quiz
     }
   end
 end

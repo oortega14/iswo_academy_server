@@ -2,9 +2,17 @@ class Assessment < ApplicationRecord
   # Associations
   belongs_to :course
   belongs_to :course_section, optional: true
+  belongs_to :teacher, class_name: 'User'
+
+  has_many :questions, dependent: :destroy
+  has_many :student_assessments, dependent: :destroy
 
   # Validations
-  validates :course_section, presence: true, if: -> { quiz? }
+  validates :name, presence: true
+  validates :time_limit, numericality: { greater_than: 0 }, allow_nil: true
+  validates :approve_with, numericality: { greater_than_or_equal_to: 0 }
+  validates :max_attempts, numericality: { greater_than: 0 }
+  validates :retry_after, numericality: { greater_than_or_equal_to: 30 }
 
   # Scopes
   scope :quizzes, -> { where(type: 'Quiz') }

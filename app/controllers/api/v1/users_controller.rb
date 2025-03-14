@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET '/api/v1/users/:id'
   def show
-    render json: @user, status: :ok
+    render_with(@user)
   end
 
   # DELETE '/api/v1/users/:id'

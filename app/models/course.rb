@@ -9,7 +9,6 @@ class Course < ApplicationRecord
   has_many :course_goals, -> { where(type: 'CourseGoal') }, class_name: 'CourseDetail'
 
   has_many :assessments, dependent: :destroy
-  has_many :quizzes, -> { quizzes }, class_name: 'Assessment'
   has_one :final_exam, -> { final_exams }, class_name: 'Assessment'
 
   has_many :attachments, as: :attachable, dependent: :destroy

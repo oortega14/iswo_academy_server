@@ -29,11 +29,9 @@ module Api
       # PATCH '/api/v1/academies/:id'
       def update
         authorize @academy
-        if @academy.update(academy_params)
-          render json: @academy, status: :ok
-        else
-          render json: { errors: @academy.errors.full_messages }, status: :unprocessable_entity
-        end
+
+        @academy.update!(academy_params)
+        render_with(@academy)
       end
 
       # DELETE '/api/v1/academies/:id'
