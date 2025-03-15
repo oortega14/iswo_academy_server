@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET '/api/v1/users/:id'
   def update
-    @user.update(user_params)
+    @user.update!(user_params)
     render_with(@user)
   end
 
