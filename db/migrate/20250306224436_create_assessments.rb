@@ -7,9 +7,8 @@ class CreateAssessments < ActiveRecord::Migration[7.2]
       t.string :type
       t.string :name
       t.integer :time_limit
-      t.integer :max_attempts, default: 3, null: false
-      t.integer :retry_after, default: 30, null: false
-      t.integer :approve_with, default: 0, null: false
+      t.integer :retry_after, null: false
+      t.integer :approve_with, null: false
       t.timestamps
     end
   end

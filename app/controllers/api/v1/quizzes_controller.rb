@@ -15,8 +15,8 @@ module Api
       def create
         quiz = Quiz.new(quiz_params)
         quiz.teacher = current_user
+        authorize quiz
 
-        quiz.save!
         render_with(quiz)
       end
 

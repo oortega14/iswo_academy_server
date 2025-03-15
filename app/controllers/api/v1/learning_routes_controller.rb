@@ -5,15 +5,22 @@ module Api
 
       # GET /learning_routes
       def index
-        @learning_routes = policy_scope(LearningRoute)
-        render_with(@learning_routes)
+        base_scope = policy_scope(LearningRoute)
+
+        learning_routes = if params[:show_all] == 'true'
+          base_scope
+        else
+          base_scope.where(status: 'published')
+        end
+
+        render_with(learning_routes)
       end
 
       # POST /learning_routes
       def create
         learning_route = LearningRoute.new(learning_route_params)
         authorize(learning_route)
-        learning_route.save!
+
         render_with(learning_route)
       end
 

@@ -20,7 +20,6 @@ class QuizSerializer < BaseSerializer
       type: resource.type,
       name: resource.name,
       time_limit: resource.time_limit,
-      max_attempts: resource.max_attempts,
       retry_after: resource.retry_after,
       approve_with: resource.approve_with,
       created_at: resource.created_at,

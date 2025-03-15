@@ -19,7 +19,10 @@ module ApiExceptions
         STUDENTS_NOT_CREATED: { code: 2005, message: I18n.t('base_exceptions.students_not_created') },
         REPEATED_QUESTION: { code: 2006, message: I18n.t('base_exceptions.repeated_question') },
         ALREADY_FIRST: { code: 2007, message: I18n.t('base_exceptions.already_first') },
-        ALREADY_LAST: { code: 2008, message: I18n.t('base_exceptions.already_last') }
+        ALREADY_LAST: { code: 2008, message: I18n.t('base_exceptions.already_last') },
+        USER_CANNOT_BE_ADMIN_AND_STUDENT_IN_SAME_ACADEMY: { code: 2009, message: I18n.t('base_exceptions.user_cannot_be_admin_and_student_in_same_academy') },
+        CERTIFICATE_TEMPLATE_REQUIRED: { code: 2010, message: I18n.t('base_exceptions.certificate_template_required') },
+        COURSE_ONLY_HAS_ONE_CERTIFICATE_CONFIGURATION: { code: 2011, message: I18n.t('base_exceptions.course_only_has_one_certificate_configuration') }
       }
     end
 

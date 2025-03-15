@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_09_232316) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,9 +93,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_09_232316) do
     t.string "type"
     t.string "name"
     t.integer "time_limit"
-    t.integer "max_attempts", default: 3, null: false
-    t.integer "retry_after", default: 30, null: false
-    t.integer "approve_with", default: 0, null: false
+    t.integer "retry_after", null: false
+    t.integer "approve_with", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_assessments_on_course_id"
@@ -112,6 +111,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_09_232316) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+  end
+
+  create_table "badge_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "badges", force: :cascade do |t|

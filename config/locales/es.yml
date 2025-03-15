@@ -107,4 +107,7 @@ es:
     already_admin_in_other_academy: Ya eres administrador de otra academia
     already_first: Ya es el primer registro
     already_last: Ya es el último registro
+    user_cannot_be_admin_and_student_in_same_academy: Un usuario no puede ser estudiante y administrador en la misma academia
+    certificate_template_required: La plantilla del certificado es requerida
+    course_only_has_one_certificate_configuration: Un curso solo puede tener una configuración de certificado
 

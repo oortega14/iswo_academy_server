@@ -11,8 +11,7 @@ class Assessment < ApplicationRecord
   validates :name, presence: true
   validates :time_limit, numericality: { greater_than: 0 }, allow_nil: true
   validates :approve_with, numericality: { greater_than_or_equal_to: 0 }
-  validates :max_attempts, numericality: { greater_than: 0 }
-  validates :retry_after, numericality: { greater_than_or_equal_to: 30 }
+  validates :retry_after, numericality: { greater_than_or_equal_to: 1 }
 
   # Scopes
   scope :quizzes, -> { where(type: 'Quiz') }

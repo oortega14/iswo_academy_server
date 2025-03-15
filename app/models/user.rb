@@ -32,6 +32,10 @@ class User < ApplicationRecord
     payment_confirmation_step: 4
   }
 
+  # Validations
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, length: { minimum: 8 }
+
   # Methods
   def superadmin?
     is_super_admin

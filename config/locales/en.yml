@@ -14,3 +14,6 @@ en:
     not_authorized: "You are not authorized to perform this action."
     record_not_found: "The requested record was not found."
     service_not_available: "The service is temporarily unavailable."
+    user_cannot_be_admin_and_student_in_same_academy: "A user cannot be an admin and a student in the same academy."
+    certificate_template_required: "The certificate template is required."
+    course_only_has_one_certificate_configuration: "A course can only have one certificate configuration."

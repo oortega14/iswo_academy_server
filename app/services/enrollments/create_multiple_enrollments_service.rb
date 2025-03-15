@@ -33,23 +33,23 @@ module Enrollments
     def prepare_enrollment_data(header, row)
       enrollment_data = header.zip(row).to_h
       {
-        email: sanitize_text(enrollment_data['email']),
-        first_name: sanitize_text(enrollment_data['first_name']),
-        last_name: sanitize_text(enrollment_data['last_name']),
-        dni: sanitize_text(enrollment_data['dni'])
+        enrollment: {
+          email: sanitize_text(enrollment_data['email']),
+          first_name: sanitize_text(enrollment_data['first_name']),
+          last_name: sanitize_text(enrollment_data['last_name']),
+          dni: sanitize_text(enrollment_data['dni']),
+          academy_id: @academy_id,
+          course_id: @course_id
+        }
       }
     end
 
     def process_enrollment(enrollment_data)
-      user = initialize_user(enrollment_data)
-      if user.save
-        assign_role(user)
-        verify_student(user)
-      else
-        errors << { email: enrollment_data[:email], errors: user.errors.full_messages }
-      end
+      service = CreateSimpleEnrollmentService.new(enrollment_data)
+      service.call
+      errors.concat(service.errors) if service.errors.any?
     rescue StandardError => e
-      errors << { email: enrollment_data[:email], errors: ["Error al procesar la inscripción: #{e.message}"] }
+      errors << { email: enrollment_data[:enrollment][:email], errors: ["Error al procesar la inscripción: #{e.message}"] }
     end
 
     def initialize_user(enrollment_data)
@@ -90,12 +90,7 @@ module Enrollments
 
     def sanitize_text(text)
       return nil if text.nil?
-
-      # Opción 1: Usando expresiones regulares
       text.to_s.gsub(/<[^>]*>/, '').strip
-
-      # Opción 2: Usando ActionView::Helpers::SanitizeHelper
-      # ActionView::Base.full_sanitizer.sanitize(text.to_s).strip
     end
   end
 end

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
         end
         # Courses routes
         resources :courses do
+          # Certificate Configurations routes
+          resources :certificate_configurations
+
           # Course Sections routes
           resources :course_sections do
             member do

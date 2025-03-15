@@ -1,13 +1,14 @@
 module Enrollments
   # Define Service for simple creation
   class CreateSimpleEnrollmentService < ApplicationService
-    attr_reader :course_id, :errors, :enrollment, :academy_id
+    attr_reader :course_id, :errors, :enrollment, :academy_id, :email
 
     def initialize(params)
       super()
       @enrollment = params[:enrollment]
-      @course_id = params[:enrollment][:course_id]
-      @academy_id = params[:enrollment][:academy_id]
+      @course_id = @enrollment[:course_id]
+      @academy_id = @enrollment[:academy_id]
+      @email = @enrollment[:email]
       @errors = []
     end
 
@@ -17,30 +18,44 @@ module Enrollments
         assign_role(user)
         verify_student(user)
       else
-        errors << { email: @enrollment[:email], errors: user.errors.full_messages }
+        errors << { email: @email, errors: user.errors.full_messages }
       end
+      errors.empty?
     rescue StandardError => e
-      errors << { email: @enrollment[:email], errors: ["Error al procesar la inscripción: #{e.message}"] }
+      errors << { email: @email, errors: ["Error al procesar la inscripción: #{e.message}"] }
+      errors.empty?
     end
 
     private
 
+    def user_detail_params
+      @enrollment.permit(:first_name, :last_name, :dni)
+    end
+
     def initialize_user
-      user = User.find_or_initialize_by(email: @enrollment[:email])
+      user = User.find_or_initialize_by(email: @email)
       user.password ||= Rails.application.credentials.super_admin_password
       user.build_user_detail if user.user_detail.nil?
       user.user_detail.assign_attributes(user_detail_params)
       user
     end
 
-    def user_detail_params
-      @enrollment.permit(:first_name, :last_name, :dni)
-    end
-
     def assign_role(user)
-      user_academy = UserAcademy.find_or_initialize_by(user_id: user.id, academy_id: @academy_id)
-      user_academy.role ||= 'student'
-      user_academy.save!
+      user_academy = UserAcademy.find_by(user_id: user.id, academy_id: @academy_id)
+
+      if user_academy.nil?
+        UserAcademy.create!(
+          user_id: user.id,
+          academy_id: @academy_id,
+          role: 'student'
+        )
+      elsif user_academy.role == 'admin'
+        UserAcademy.create!(
+          user_id: user.id,
+          academy_id: @academy_id,
+          role: 'student'
+        )
+      end
     end
 
     def verify_student(user)
