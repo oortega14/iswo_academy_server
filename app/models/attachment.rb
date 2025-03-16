@@ -1,6 +1,6 @@
 class Attachment < ApplicationRecord
   # Constants
-  CATEGORIES = %w[promotional_video video_class study_material extra_resource].freeze
+  CATEGORIES = %w[promotional_video video_class study_material task_material extra_resource].freeze
 
   # Associations
   belongs_to :attachable, polymorphic: true

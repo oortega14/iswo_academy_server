@@ -15,6 +15,9 @@ Rails.application.routes.draw do
           # Certificate Configurations routes
           resources :certificate_configurations
 
+          # Teacher Tasks routes
+          resources :teacher_tasks
+
           # Course Sections routes
           resources :course_sections do
             member do
