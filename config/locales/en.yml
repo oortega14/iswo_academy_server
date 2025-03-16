@@ -1,19 +1,116 @@
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      messages:
+        attached: must be present
+        taken: already exists
+        blank: must exist
+        required: can't be blank
+    models:
+      user: User
+      about_us_section: Section
+      academy_contact: Message
+    attributes:
+      user:
+        first_name: First name
+        last_name: Last name
+        dni: Identification
+        username: Username
+        description: description
+        email: email
+        role: role
+      about_us_section:
+        academy: academy
+        title: title
+        description: description
+      academy_contact:
+        name: username
+        email: email
+        message: message
+        academy: academy
+  academy_categories:
+    Technology: Technology
+    Finance: Finance
+    Languages: Languages
+    Business: Business
+    My Company: My Company
+    Health and Sports: Health and Sports
+    Finance and Investments: Finance and Investments
+    Design: Design
+    Relationships: Relationships
+    Business and Career: Business and Career
+    Espirituality: Espirituality
+    Sexuality: Sexuality
+    Entertaiment: Entertaiment
+    Culinary and Gastronomy: Culinary and Gastronomy
+    Law: Law
+    Apps and Software: Apps and Software
+    Literature: Literature
+    Home and Construction: Home and Construction
+    Personal development: Personal development
+    Fashion and Beauty: Fashion and Beauty
+    Animals and plants: Animals and plants
+    Educational: Educational
+    Hobbies: Hobbies
+    Internet: Internet
+    Ecology and Environment: Ecology and Environment
+    Art and music: Art and music
+    Information Technology: Information Technology
+    Others: Others
+    Digital Entrepreneurship: Digital Entrepreneurship
+  users:
+    roles:
+      superadmin: Super Admin
+      admin: Admin
+      student: Student
+      teacher: Teacher
+    email_confirmation: confirm your email
   date:
     formats:
-      default: "%B %d, %Y"
-      short: "%m/%d/%Y"
-      long: "%B %d, %Y"
+      default: "%d-%m-%Y"
+      long: "%A, %d of %B of %Y"
+      short: "%d/%m/%Y"
+      custom: "%d of %B of %Y"
   time:
     formats:
-      default: "%B %d, %Y %H:%M"
-      short: "%m/%d/%Y %H:%M"
-      long: "%B %d, %Y %H:%M"
-  api_exceptions:
-    not_authorized: "You are not authorized to perform this action."
-    record_not_found: "The requested record was not found."
-    service_not_available: "The service is temporarily unavailable."
-    user_cannot_be_admin_and_student_in_same_academy: "A user cannot be an admin and a student in the same academy."
-    certificate_template_required: "The certificate template is required."
-    course_only_has_one_certificate_configuration: "A course can only have one certificate configuration."
+      default: "%H:%M:%S"
+      short: "%H:%M"
+      custom: "%H:%M"
+  teacher_tasks:
+    status:
+      created: Created
+      assigned: Assigned
+      expired: Expired
+      completed: Completed
+  student_tasks:
+    status:
+      non_started: Not started
+      in_progress: In progress
+      pending: Pending review
+      completed: Completed
+      expired: Expired
+  jwt:
+    expired_signature: Please login again.
+  record:
+    create:
+      success: Record created successfully.
+      error: An error occurred while creating this record.
+    update:
+      success: Record updated successfully.
+      failed: An error occurred while updating this record.
+    destroy:
+      success: Record deleted successfully.
+      error: An error occurred while deleting this record.
+    not_supported: Action not supported
+  test_question:
+    unique_validation: You cannot have duplicate questions
+  base_exceptions:
+    already_admin_in_other_academy: You are already an admin in another academy
+    already_first: You are already the first record
+    already_last: You are already the last record
+    user_cannot_be_admin_and_student_in_same_academy: A user cannot be a student and admin in the same academy
+    certificate_template_required: The certificate template is required
+    course_only_has_one_certificate_configuration: A course can only have one certificate configuration
+    not_valid_for_publishing: The course is not valid for publishing
+
+

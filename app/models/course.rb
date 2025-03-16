@@ -42,8 +42,9 @@ class Course < ApplicationRecord
   enum :status, {
     draft: 0,
     published: 1,
-    almost_finished: 2,
-    archived: 3
+    unpublished: 2,
+    almost_finished: 3,
+    archived: 4
   }, prefix: :course
 
   # Nested attributes

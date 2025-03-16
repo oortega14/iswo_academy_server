@@ -10,7 +10,7 @@ class Enrollment < ApplicationRecord
   enum :status, {
     interested: 0,
     purchased: 1,
-    refunded: 2
+    finished: 2
   }
 
   enum :progress, {

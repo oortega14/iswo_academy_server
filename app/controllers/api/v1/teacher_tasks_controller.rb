@@ -9,7 +9,7 @@ module Api
       end
 
       def show
-        @teacher_task = TeacherTask.find(params[:id])
+        render_with(@teacher_task)
       end
 
       def create
@@ -22,13 +22,16 @@ module Api
       end
 
       def update
-        @teacher_task = TeacherTask.find(params[:id])
-        @teacher_task.update(teacher_task_params)
+        authorize @teacher_task
+
+        @teacher_task.update!(teacher_task_params)
+        render_with(@teacher_task)
       end
 
       def destroy
-        @teacher_task = TeacherTask.find(params[:id])
-        @teacher_task.destroy
+        authorize @teacher_task
+
+        render_with(@teacher_task)
       end
 
       private

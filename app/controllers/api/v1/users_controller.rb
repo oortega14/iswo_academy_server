@@ -49,9 +49,9 @@ class Api::V1::UsersController < ApplicationController
     params.require(:user).permit(
       :email, :password, :password_confirmation, :is_super_admin, :is_active, :is_profile_completed, :wizard_step, :profile_picture,
       user_detail_attributes: [
-        :first_name, :last_name, :phone, :birth_date, :dni, :gender, :username,
-        address_attributes: %i[address city province country postal_code],
-        social_networks_attributes: %i[platform url]
+        :id, :first_name, :last_name, :phone, :birth_date, :dni, :gender, :username,
+        address_attributes: %i[id address city province country postal_code user_detail_id _destroy],
+        social_networks_attributes: %i[id platform url user_detail_id _destroy]
       ],
       user_academies_attributes: [
         :id, :academy_id, :role, :user_id

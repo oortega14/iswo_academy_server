@@ -12,6 +12,8 @@ Rails.application.routes.draw do
         end
         # Courses routes
         resources :courses do
+          post 'publish', on: :member
+          post 'unpublish', on: :member
           # Certificate Configurations routes
           resources :certificate_configurations
 
@@ -74,7 +76,8 @@ Rails.application.routes.draw do
                  controllers: {
                    sessions: 'users/sessions',
                    registrations: 'users/registrations',
-                   confirmations: 'api/v1/confirmations'
+                   confirmations: 'api/v1/confirmations',
+                   passwords: 'users/passwords'
                  },
                  defaults: {
                    format: :json

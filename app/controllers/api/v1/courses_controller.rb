@@ -1,7 +1,7 @@
 module Api
   module V1
     class CoursesController < BaseController
-      before_action :set_course, only: [:show, :update, :destroy]
+      before_action :set_course, only: [:show, :update, :destroy, :publish, :unpublish]
 
       # GET /courses
       def index
@@ -41,6 +41,28 @@ module Api
 
         render_with(@course)
       end
+
+      def publish
+        authorize @course
+
+        publish_service = Courses::PublishService.new(@course)
+
+        if publish_service.valid_for_publishing?
+          @course.update!(status: :published)
+          render json: { message: 'Curso publicado exitosamente' }, status: :ok
+        else
+          raise ApiExceptions::BaseException.new(:NOT_VALID_FOR_PUBLISHING, [publish_service.errors], {})
+        end
+      end
+
+      def unpublish
+        authorize @course
+
+        @course.update!(status: :unpublished)
+        render json: { message: 'Curso despublicado exitosamente' }, status: :ok
+      end
+
+      def courses_by_user
 
       private
 

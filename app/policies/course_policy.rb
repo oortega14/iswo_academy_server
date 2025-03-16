@@ -31,6 +31,14 @@ class CoursePolicy < ApplicationPolicy
     user.superadmin? || user_has_permission?
   end
 
+  def publish?
+    user.superadmin? || user_has_permission?
+  end
+
+  def unpublish?
+    user.superadmin? || user_has_permission?
+  end
+
   def user_courses?
     record.first&.user_id == user.id
   end

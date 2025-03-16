@@ -1,4 +1,8 @@
 es:
+  devise:
+    mailer:
+      reset_password_instructions:
+        subject: "Instrucciones para restablecer tu contraseña"
   activerecord:
     errors:
       messages:
@@ -110,4 +114,4 @@ es:
     user_cannot_be_admin_and_student_in_same_academy: Un usuario no puede ser estudiante y administrador en la misma academia
     certificate_template_required: La plantilla del certificado es requerida
     course_only_has_one_certificate_configuration: Un curso solo puede tener una configuración de certificado
-
+    not_valid_for_publishing: El curso no es válido para publicar

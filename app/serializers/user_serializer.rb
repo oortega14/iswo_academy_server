@@ -11,11 +11,13 @@ class UserSerializer < BaseSerializer
       id: resource.id,
       email: resource.email,
       is_super_admin: resource.is_super_admin,
+      profile_picture: resource.profile_picture.url,
       is_active: resource.is_active,
       is_profile_completed: resource.is_profile_completed,
       active_academy_id: resource.active_academy_id,
       wizard_step: resource.wizard_step,
       user_detail: {
+        id: resource.user_detail&.id,
         first_name: resource.user_detail&.first_name,
         last_name: resource.user_detail&.last_name,
         birth_date: resource.user_detail&.birth_date,
@@ -24,6 +26,7 @@ class UserSerializer < BaseSerializer
         gender: resource.user_detail&.gender,
         username: resource.user_detail&.username,
         address: {
+          id: resource.user_detail&.address&.id,
           address: resource.user_detail&.address&.address,
           city: resource.user_detail&.address&.city,
           province: resource.user_detail&.address&.province,

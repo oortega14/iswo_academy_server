@@ -74,6 +74,7 @@ class ApplicationController < ActionController::API
   end
 
   def set_current_academy
+    debugger
     @current_academy = request.env['current_academy']
     render json: { error: 'Academia no encontrada' }, status: :not_found unless @current_academy
   end

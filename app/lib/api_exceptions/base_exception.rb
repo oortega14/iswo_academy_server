@@ -22,7 +22,8 @@ module ApiExceptions
         ALREADY_LAST: { code: 2008, message: I18n.t('base_exceptions.already_last') },
         USER_CANNOT_BE_ADMIN_AND_STUDENT_IN_SAME_ACADEMY: { code: 2009, message: I18n.t('base_exceptions.user_cannot_be_admin_and_student_in_same_academy') },
         CERTIFICATE_TEMPLATE_REQUIRED: { code: 2010, message: I18n.t('base_exceptions.certificate_template_required') },
-        COURSE_ONLY_HAS_ONE_CERTIFICATE_CONFIGURATION: { code: 2011, message: I18n.t('base_exceptions.course_only_has_one_certificate_configuration') }
+        COURSE_ONLY_HAS_ONE_CERTIFICATE_CONFIGURATION: { code: 2011, message: I18n.t('base_exceptions.course_only_has_one_certificate_configuration') },
+        NOT_VALID_FOR_PUBLISHING: { code: 2012, message: I18n.t('base_exceptions.not_valid_for_publishing') }
       }
     end
 

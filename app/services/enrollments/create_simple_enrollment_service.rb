@@ -49,12 +49,14 @@ module Enrollments
           academy_id: @academy_id,
           role: 'student'
         )
+        user.update(is_profile_completed: true)
       elsif user_academy.role == 'admin'
         UserAcademy.create!(
           user_id: user.id,
           academy_id: @academy_id,
           role: 'student'
         )
+        user.update(is_profile_completed: true)
       end
     end
 
