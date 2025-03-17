@@ -65,6 +65,9 @@ Rails.application.routes.draw do
         collection do
           post 'create_simple'
           post 'create_multiple'
+          get 'purchased_courses'
+          get 'interested_courses'
+          get 'completed_courses'
         end
       end
 

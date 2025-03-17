@@ -15,7 +15,6 @@ module Api
         course.creator = current_user
         authorize(course)
 
-        course.save!
         render_with(course)
       end
 
@@ -61,8 +60,6 @@ module Api
         @course.update!(status: :unpublished)
         render json: { message: 'Curso despublicado exitosamente' }, status: :ok
       end
-
-      def courses_by_user
 
       private
 

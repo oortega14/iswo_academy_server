@@ -33,6 +33,7 @@ class CourseSectionSerializer < BaseSerializer
       id: resource.id,
       name: resource.name,
       position: resource.position,
+      lessons: resource.lessons.order(:position),
       quiz: resource.quiz
     }
   end

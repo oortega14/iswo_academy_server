@@ -6,12 +6,9 @@ module Users
     include ActionController::Cookies
     include ActionController::RequestForgeryProtection
 
-    # Callbacks
-    before_action :authenticate!, except: %i[destroy create]
-    skip_before_action :verify_signed_out_user, only: [:destroy]
-    # skip_before_action :set_current_academy
-
     respond_to :json
+
+    skip_before_action :verify_signed_out_user
 
     def create
       user = find_user
@@ -24,8 +21,12 @@ module Users
     end
 
     def destroy
-      current_user.update!(active_academy_id: nil)
-      cookies.delete(:jwt)
+      user = current_user
+      cookies.delete(:jwt, domain: nil)
+      reset_session
+      sign_out(current_user)
+      user&.update!(active_academy_id: nil)
+
       render json: { message: 'Logged out successfully' }, status: :ok
     end
 

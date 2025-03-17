@@ -4,9 +4,6 @@ module Users
     # Responders
     respond_to :json
 
-    # skips
-    # skip_before_action :set_current_academy
-
     # POST '/api/v1/users'
     def create
       build_resource(sign_up_params)

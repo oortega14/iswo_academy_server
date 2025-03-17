@@ -29,14 +29,18 @@ module Enrollments
     private
 
     def user_detail_params
-      @enrollment.permit(:first_name, :last_name, :dni)
+      @enrollment.permit(:first_name, :last_name)
     end
 
     def initialize_user
       user = User.find_or_initialize_by(email: @email)
       user.password ||= Rails.application.credentials.super_admin_password
-      user.build_user_detail if user.user_detail.nil?
-      user.user_detail.assign_attributes(user_detail_params)
+
+      if user.new_record?
+        user.build_user_detail if user.user_detail.nil?
+        user.user_detail.assign_attributes(user_detail_params)
+      end
+
       user
     end
 

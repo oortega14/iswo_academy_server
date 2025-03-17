@@ -17,7 +17,7 @@ class CourseSectionPolicy < ApplicationPolicy
   end
 
   def show?
-    user.superadmin? || user_has_permission?
+    user.superadmin? || user_has_permission? || student_enrolled?
   end
 
   def create?
@@ -48,6 +48,10 @@ class CourseSectionPolicy < ApplicationPolicy
       academy_id: record.course.academy_id
     )
 
-    user_academy&.admin? || user_academy&.teacher?
+    user_academy&.admin? || user_academy&.professor?
+  end
+
+  def student_enrolled?
+    user.enrollments.where(course_id: record.id, status: 'purchased').exists?
   end
 end

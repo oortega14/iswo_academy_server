@@ -18,4 +18,22 @@ class Enrollment < ApplicationRecord
     in_progress: 1,
     completed: 2
   }
+
+  # Callbacks
+  after_create :set_tasks
+
+  private
+
+  def set_tasks
+    course.teacher_tasks.each do |task|
+      debugger
+      StudentTask.create!(
+        course: course,
+        student: user,
+        teacher_task_id: task.id,
+        status: :pending,
+        due_date: task.due_date
+      )
+    end
+  end
 end

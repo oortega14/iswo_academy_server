@@ -27,6 +27,8 @@ class CourseSerializer < BaseSerializer
       attachments: attachments,
       learning_routes: resource.learning_routes,
       final_exam: resource.final_exam,
+      duration: resource&.certificate_configuration&.course_time&.to_i,
+      students_count: resource.enrollments.where(status: 'purchased').size,
       created_at: resource.created_at,
       updated_at: resource.updated_at
     }
