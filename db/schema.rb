@@ -325,6 +325,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
     t.index ["assessment_id"], name: "index_questions_on_assessment_id"
   end
 
+  create_table "refresh_tokens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.datetime "expires_at", null: false
+    t.string "user_agent"
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_refresh_tokens_on_token", unique: true
+    t.index ["user_id"], name: "index_refresh_tokens_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "description"
     t.integer "stars", default: 0
@@ -519,6 +531,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
   add_foreign_key "professor_invitations", "academies"
   add_foreign_key "question_options", "questions"
   add_foreign_key "questions", "assessments"
+  add_foreign_key "refresh_tokens", "users"
   add_foreign_key "reviews", "courses"
   add_foreign_key "reviews", "users"
   add_foreign_key "social_networks", "user_details"

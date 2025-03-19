@@ -13,6 +13,8 @@ module IswoAcademyBack
     config.load_defaults 7.2
     config.action_dispatch.cookies_same_site_protection = :lax
     config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_iswo_academy_session_id'
+    config.api_only = true
     # config.middleware.use Middleware::SubdomainMiddleware
     config.i18n.available_locales = %i[es en]
     config.i18n.default_locale = :es
@@ -20,10 +22,6 @@ module IswoAcademyBack
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths
     config.time_zone = 'America/Bogota'
-    config.api_only = true
-
-    # Configurar el almacén de sesiones
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_iswo_academy_session_id'
 
     config.generators do |g|
       g.test_framework false

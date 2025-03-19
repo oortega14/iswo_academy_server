@@ -77,10 +77,10 @@ Rails.application.routes.draw do
       # User routes
       devise_for :users,
                  controllers: {
-                   sessions: 'users/sessions',
-                   registrations: 'users/registrations',
+                   sessions: 'api/v1/users/sessions',
+                   registrations: 'api/v1/users/registrations',
                    confirmations: 'api/v1/confirmations',
-                   passwords: 'users/passwords'
+                   passwords: 'api/v1/users/passwords'
                  },
                  defaults: {
                    format: :json
@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[index show destroy update] do
         get :me, on: :collection
         post :set_active_academy, on: :collection
+        post :refresh, on: :collection
       end
 
       resources :user_academies, only: %i[index] do

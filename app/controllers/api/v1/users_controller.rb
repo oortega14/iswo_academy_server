@@ -43,6 +43,24 @@ class Api::V1::UsersController < ApplicationController
     render json: serialize_item(user_academy, UserAcademySerializer), status: :ok
   end
 
+  def refresh
+    refresh_token = params[:refresh_token]
+    token_record = RefreshToken.find_valid(refresh_token)
+
+    if token_record
+      user = token_record.user
+
+      # Generar nuevo access_token
+      access_token = JwtService.encode({ sub: user.id })
+
+      render json: {
+        access_token: access_token
+      }, status: :ok
+    else
+      render json: { error: 'Invalid refresh token' }, status: :unauthorized
+    end
+  end
+
   private
 
   def user_params

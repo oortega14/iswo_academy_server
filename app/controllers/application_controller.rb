@@ -12,6 +12,7 @@ class ApplicationController < ActionController::API
   # Callbacks
   before_action :set_locale
   # before_action :set_current_academy
+  before_action :authenticate_user_from_token!
 
   # Rescues
   rescue_from ApiExceptions::BaseException, with: :render_error_response
@@ -47,13 +48,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    return @current_user if defined?(@current_user)
-
-    return nil unless token_from_request.present?
-
-    @current_user = find_user_from_token(token_from_request)
-  rescue JWT::DecodeError, ActiveRecord::RecordNotFound
-    nil
+    @current_user
   end
 
   def current_academy
@@ -74,7 +69,6 @@ class ApplicationController < ActionController::API
   end
 
   def set_current_academy
-    debugger
     @current_academy = request.env['current_academy']
     render json: { error: 'Academia no encontrada' }, status: :not_found unless @current_academy
   end
@@ -89,5 +83,21 @@ class ApplicationController < ActionController::API
   def token_from_request
     request.headers['Authorization']&.split(' ')&.last ||
     cookies.signed[:jwt]
+  end
+
+  def authenticate_user_from_token!
+    header = request.headers['Authorization']
+    if header.present?
+      token = header.split(' ').last
+      payload = JwtService.decode(token)
+
+      if payload && payload[:sub]
+        @current_user = User.find_by(id: payload[:sub])
+      end
+    end
+  end
+
+  def authenticate_user!
+    render json: { error: 'Unauthorized' }, status: :unauthorized unless current_user
   end
 end
