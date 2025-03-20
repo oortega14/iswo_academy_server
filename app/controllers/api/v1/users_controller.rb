@@ -12,6 +12,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET '/api/v1/users/:id'
   def update
+    debugger
     @user.update!(user_params)
     render_with(@user)
   end
@@ -28,11 +29,6 @@ class Api::V1::UsersController < ApplicationController
     end
     @user.destroy
     render json: { message: 'Usuario eliminado' }, status: :ok
-  end
-
-  # GET '/api/v1/users/me'
-  def me
-    render json: serialize_item(current_user, UserSerializer), status: :ok
   end
 
   # POST '/api/v1/users/set_active_academy'
