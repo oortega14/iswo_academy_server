@@ -10,7 +10,7 @@ module Api
 
         respond_to :json
 
-        skip_before_action :verify_signed_out_user
+        skip_before_action :authenticate_user_from_token!
 
         def create
           user = find_user

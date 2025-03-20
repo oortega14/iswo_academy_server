@@ -19,19 +19,6 @@ class ApplicationController < ActionController::API
   rescue_from Pundit::NotAuthorizedError, with: :handle_user_not_authorized
   rescue_from JWT::ExpiredSignature, with: :handle_expired_jwt
 
-  def authenticate!
-    return render json: { error: 'Not authorized' }, status: :unauthorized unless token_from_request
-
-    begin
-      @current_user = find_user_from_token(token_from_request)
-      sign_in(@current_user, store: false) if @current_user
-    rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
-      render json: { error: 'Not authorized' }, status: :unauthorized
-    rescue StandardError => e
-      render json: { error: e.message }, status: :unauthorized
-    end
-  end
-
   def render_error_response(error)
     error_response = {
       error: {
@@ -95,9 +82,5 @@ class ApplicationController < ActionController::API
         @current_user = User.find_by(id: payload[:sub])
       end
     end
-  end
-
-  def authenticate_user!
-    render json: { error: 'Unauthorized' }, status: :unauthorized unless current_user
   end
 end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class BaseController < ApplicationController
-      before_action :authenticate!
+      before_action :authenticate_user_from_token!
 
       rescue_from ActiveRecord::RecordNotFound, with: :not_found
 

@@ -1,5 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate!, except: %i[index show]
   before_action :set_user, only: %i[show destroy update]
   # skip_before_action :set_current_academy, only: %i[me]
 
@@ -49,12 +48,11 @@ class Api::V1::UsersController < ApplicationController
 
     if token_record
       user = token_record.user
-
-      # Generar nuevo access_token
       access_token = JwtService.encode({ sub: user.id })
 
       render json: {
-        access_token: access_token
+        access_token: access_token,
+        user: serialize_item(user, UserSerializer)
       }, status: :ok
     else
       render json: { error: 'Invalid refresh token' }, status: :unauthorized
