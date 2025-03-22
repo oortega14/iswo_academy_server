@@ -12,7 +12,6 @@ class Api::V1::UsersController < ApplicationController
 
   # GET '/api/v1/users/:id'
   def update
-    debugger
     @user.update!(user_params)
     render_with(@user)
   end
