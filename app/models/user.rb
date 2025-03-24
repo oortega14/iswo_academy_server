@@ -29,9 +29,11 @@ class User < ApplicationRecord
   enum :wizard_step, {
     personal_info_step: 0,
     password_step: 1,
-    payment_info_step: 2,
-    payment_method_step: 3,
-    payment_confirmation_step: 4
+    academy_selection_step: 2,
+    payment_info_step: 3,
+    payment_method_step: 4,
+    preferences_step: 5,
+    confirmation_step: 6
   }
 
   # Validations

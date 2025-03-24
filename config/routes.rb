@@ -92,7 +92,7 @@ Rails.application.routes.draw do
         post :refresh, on: :collection
       end
 
-      resources :user_academies, only: %i[index] do
+      resources :user_academies, only: %i[index show] do
         get :get_role, on: :collection
       end
 

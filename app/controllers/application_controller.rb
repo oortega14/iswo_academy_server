@@ -18,6 +18,7 @@ class ApplicationController < ActionController::API
   rescue_from ApiExceptions::BaseException, with: :render_error_response
   rescue_from Pundit::NotAuthorizedError, with: :handle_user_not_authorized
   rescue_from JWT::ExpiredSignature, with: :handle_expired_jwt
+  rescue_from JWT::DecodeError, with: :handle_expired_jwt
 
   def render_error_response(error)
     error_response = {
@@ -52,7 +53,10 @@ class ApplicationController < ActionController::API
 
   def handle_expired_jwt
     render json: { message: I18n.t('jwt.expired_signature'), expired: true }, status: :unauthorized
-    # cookies.delete(:jwt)
+  end
+
+  def handle_decode_error
+    render json: { message: I18n.t('jwt.decode_error'), expired: true }, status: :unprocessable_entity
   end
 
   def set_current_academy
@@ -77,7 +81,6 @@ class ApplicationController < ActionController::API
     if header.present?
       token = header.split(' ').last
       payload = JwtService.decode(token)
-
       if payload && payload[:sub]
         @current_user = User.find_by(id: payload[:sub])
       end

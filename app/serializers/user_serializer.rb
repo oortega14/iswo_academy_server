@@ -16,6 +16,7 @@ class UserSerializer < BaseSerializer
       is_profile_completed: resource.is_profile_completed,
       active_academy_id: resource.active_academy_id,
       wizard_step: resource.wizard_step,
+      color_palette: resource.active_academy&.academy_configuration&.color_palette,
       user_detail: {
         id: resource.user_detail&.id,
         first_name: resource.user_detail&.first_name,

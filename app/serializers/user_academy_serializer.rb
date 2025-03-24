@@ -10,12 +10,12 @@ class UserAcademySerializer < BaseSerializer
     {
       id: resource.id,
       academy_id: resource.academy_id,
-      academy_name: resource.academy.name,
-      academy_logo: resource.academy.logo.url,
-      academy_banner: resource.academy.banner.url,
+      academy_name: resource.academy&.name,
+      academy_logo: resource.academy&.logo&.url,
+      academy_banner: resource.academy&.banner&.url,
       role: resource.role,
-      academy_description: resource.academy.description,
-      academy_domain: resource.academy.academy_configuration.domain
+      academy_description: resource.academy&.description,
+      academy_domain: resource.academy&.academy_configuration&.domain
     }
   end
 end

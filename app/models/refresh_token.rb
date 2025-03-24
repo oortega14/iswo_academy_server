@@ -20,6 +20,6 @@ class RefreshToken < ApplicationRecord
 
   def set_defaults
     self.token ||= SecureRandom.hex(32)
-    self.expires_at ||= 2.days.from_now
+    self.expires_at ||= 1.day.from_now
   end
 end

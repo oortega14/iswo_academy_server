@@ -95,6 +95,7 @@ es:
       expired: Expirada
   jwt:
     expired_signature: Por favor, inicie sesión nuevamente.
+    decode_error: Error al decodificar el token.
   record:
     create:
       success: Registro creado con éxito.

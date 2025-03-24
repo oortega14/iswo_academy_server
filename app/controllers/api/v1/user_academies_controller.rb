@@ -7,6 +7,12 @@ module Api
         render_with(user_academies)
       end
 
+      # GET '/api/v1/user_academies/:id'
+      def show
+        user_academy = UserAcademy.find(params[:id])
+        render_with(user_academy)
+      end
+
       # GET '/api/v1/user_academies/role'
       def get_role
         user_academy = UserAcademy.find_by(
