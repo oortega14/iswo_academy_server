@@ -42,7 +42,7 @@ gem 'rack-cors'
 gem 'acts_as_list'
 
 # Authorization
-gem 'pundit', '~> 2.4'
+gem 'pundit', '~> 2.5'
 
 # pagination
 gem 'pagy'
