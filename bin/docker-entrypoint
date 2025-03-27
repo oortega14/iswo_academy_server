@@ -1,4 +1,8 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
+
+# Remove a potentially pre-existing server.pid for Rails.
+rm -f /rails/tmp/pids/server.pid
 
 # Enable jemalloc for reduced memory usage and latency.
 if [ -z "${LD_PRELOAD+x}" ] && [ -f /usr/lib/*/libjemalloc.so.2 ]; then
@@ -10,4 +14,5 @@ if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
   ./bin/rails db:prepare
 fi
 
-exec "${@}"
+# Then exec the container's main process (what's set as CMD in the Dockerfile).
+exec "$@"

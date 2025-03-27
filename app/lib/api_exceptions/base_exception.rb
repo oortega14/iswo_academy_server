@@ -2,7 +2,7 @@
 module ApiExceptions
   # Base Exception Class
   class BaseException < StandardError
-    attr_reader :code, :message, :errors, :details, :type, :error_type
+    attr_reader :code, :messages, :type, :error_type
 
     def error_code_map
       {
@@ -31,10 +31,12 @@ module ApiExceptions
       super()
       error = error_code_map[error_type]
       @error_type = error_type
-      @details = [*errors]
       @code = error[:code] if error
-      @message = parse_message(error[:message], params) if error
-      @details = @details.flatten
+      error_messages = [*errors].flatten
+      base_message = parse_message(error[:message], params) if error
+      @messages = base_message ? [base_message] : []
+      @messages += error_messages if error_messages.present?
+      @messages = @messages.flatten.compact
       @type = 'Iswo'
     end
 

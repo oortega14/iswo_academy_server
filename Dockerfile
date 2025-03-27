@@ -17,10 +17,10 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
-ENV RAILS_ENV="production" \
+ENV RAILS_ENV="development" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT=""
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -42,9 +42,6 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-
-
-
 # Final stage for app image
 FROM base
 
@@ -56,11 +53,16 @@ COPY --from=build /rails /rails
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
+
+# Asegúrate que los ejecutables de Rails estén disponibles
+RUN chmod +x /rails/bin/* && \
+    ln -s /rails/bin/rails /usr/local/bin/rails
+
 USER 1000:1000
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD ["./bin/rails", "server"]
+EXPOSE 3001
+CMD ["/rails/bin/rails", "server"]

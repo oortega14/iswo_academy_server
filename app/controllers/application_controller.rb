@@ -24,8 +24,7 @@ class ApplicationController < ActionController::API
     error_response = {
       error: {
         code: error.code,
-        message: error.message,
-        details: error.details
+        messages: error.messages
       }
     }
     render json: error_response, status: 502

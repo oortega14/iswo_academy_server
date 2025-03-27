@@ -1,24 +1,36 @@
-# README
+## Configuración del entorno
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. Copia el archivo de ejemplo:
 
-Things you may want to cover:
+   ```bash
+   cp .env.example .env
+   ```
 
-* Ruby version
+2. Configura tus variables de entorno en `.env`:
+   - AWS: Configura tus credenciales de AWS
+   - Mercado Pago: Configura tus credenciales de MP
+   - Rails: Configura tu master key
+   - Frontend: Ajusta la URL según tu entorno
 
-* System dependencies
+### Variables requeridas:
 
-* Configuration
+#### AWS
 
-* Database creation
+- `AWS_ACCESS_KEY_ID`: Tu Access Key de AWS
+- `AWS_SECRET_ACCESS_KEY`: Tu Secret Key de AWS
+- `AWS_BUCKET`: Nombre de tu bucket S3
+- `AWS_REGION`: Región de AWS (ej: us-east-1)
 
-* Database initialization
+#### Mercado Pago
 
-* How to run the test suite
+- `MERCADOPAGO_ACCESS_TOKEN`: Token de acceso de MP
+- `MERCADOPAGO_PUBLIC_KEY`: Clave pública de MP
 
-* Services (job queues, cache servers, search engines, etc.)
+#### Rails
 
-* Deployment instructions
+- `RAILS_ENV`: Entorno de Rails (development/production)
+- `RAILS_MASTER_KEY`: Master key de Rails
 
-* ...
+#### Frontend
+
+- `FRONT_URL`: URL de tu aplicación frontend
