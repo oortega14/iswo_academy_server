@@ -16,7 +16,7 @@
 
     <div style="text-align: center;">
       <%= link_to 'Confirmar mi cuenta', 
-          "#{ENV.fetch('FRONT_URL')}/user/email-confirmation?confirmation_token=#{@token}",
+          "#{ENV.fetch('FRONT_URL')}/confirm-email?confirmation_token=#{@token}",
           style: 'background-color: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;' %>
     </div>
   </div>
