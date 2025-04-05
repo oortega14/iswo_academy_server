@@ -50,11 +50,10 @@ COPY --from=build /rails /rails
 # Configuración de seguridad
 RUN groupadd --system --gid 1000 rails && \
   useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+  chmod +x /rails/bin/* && \
   chown -R rails:rails db log storage tmp
 USER rails:rails
 
 # Hacer ejecutables los scripts de Rails
-RUN chmod +x /rails/bin/*
-
 EXPOSE 3001
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3001"]

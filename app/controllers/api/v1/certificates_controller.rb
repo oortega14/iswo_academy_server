@@ -1,8 +1,8 @@
 module Api
   module V1
     # Define CertificateConfiguration Controller
-    class CertificateConfigurationsController < BaseController
-      before_action :set_certificate_configuration, only: %i[show update destroy]
+    class CertificatesController < BaseController
+      before_action :set_certificate, only: %i[show update destroy]
 
       # GET: '/api/certificate_configurations'
       def index
@@ -48,7 +48,7 @@ module Api
         params.require(:certificate_configuration).permit(:course_id, :course_name, :course_time, :certificate_blueprint)
       end
 
-      def set_certificate_configuration
+      def set_certificate
         @certificate_configuration = CertificateConfiguration.find(params[:id])
       end
     end

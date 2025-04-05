@@ -16,6 +16,7 @@ Rails.application.routes.draw do
           post 'unpublish', on: :member
           # Certificate Configurations routes
           resources :certificate_configurations
+          resources :certificates
 
           # Teacher Tasks routes
           resources :teacher_tasks
