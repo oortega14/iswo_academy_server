@@ -3,6 +3,7 @@ services:
   api:
     build: 
       context: .
+      dockerfile: docker/Dockerfile.prod
       args:
         RUBY_VERSION: '3.3.6'
     environment:
@@ -11,6 +12,7 @@ services:
       - RAILS_LOG_TO_STDOUT=true
       - DATABASE_URL=postgres://postgres:${DB_PASSWORD}@db:5432/iswo_academy_production
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     ports:
       - "3001:3001"
     depends_on:
@@ -37,3 +39,8 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    external:
+      name: academy-network
