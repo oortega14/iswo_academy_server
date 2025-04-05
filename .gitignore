@@ -32,3 +32,6 @@
 .env
 .env.local
 .env.*.local
+
+# Ignore production environment file
+.env.production
