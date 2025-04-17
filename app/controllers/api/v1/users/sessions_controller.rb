@@ -28,6 +28,8 @@ module Api
           else
             render_invalid_credentials
           end
+        rescue Warden::AuthenticationError => e
+          render json: { error: e.message }, status: :unprocessable_entity
         end
 
         def destroy

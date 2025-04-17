@@ -239,12 +239,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
-  create_table "jwt_denylists", force: :cascade do |t|
+  create_table "jwt_denylist", force: :cascade do |t|
     t.string "jti"
     t.datetime "exp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["jti"], name: "index_jwt_denylists_on_jti"
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
   create_table "learning_routes", force: :cascade do |t|

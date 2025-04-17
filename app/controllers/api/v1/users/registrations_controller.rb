@@ -37,7 +37,6 @@ module Api
 
         def register_success
           render json: {
-            message: 'Signed up succesfully.',
             user: resource
           }, status: :ok
         end
