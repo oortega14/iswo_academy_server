@@ -25,8 +25,8 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ./apache/sites:/usr/local/apache2/conf/sites
+      - ./apache/dev/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./apache/dev/sites:/usr/local/apache2/conf/sites
     depends_on:
       - api
     networks:
