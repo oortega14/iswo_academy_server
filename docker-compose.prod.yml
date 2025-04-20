@@ -1,18 +1,17 @@
 services:
-  nginx:
-    image: nginx:1.25
+  apache:
+    image: httpd:2.4
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/nginx/ssl
+      - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./docker/apache/sites:/usr/local/apache2/conf/sites
     depends_on:
       - api
     restart: unless-stopped
 
   api:
-    build: 
+    build:
       context: .
       dockerfile: docker/Dockerfile.prod
       args:

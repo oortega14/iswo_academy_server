@@ -35,3 +35,9 @@
 
 # Ignore production environment file
 .env.production
+
+# Ignore configuration for Jetbrains
+/.idea
+
+# Ignore mise configuration
+mise.toml

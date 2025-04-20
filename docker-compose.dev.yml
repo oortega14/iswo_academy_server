@@ -1,22 +1,36 @@
 services:
   api:
-    build: 
+    build:
       context: .
       dockerfile: docker/Dockerfile.dev
       args:
         RUBY_VERSION: '3.3.6'
     environment:
       - RAILS_ENV=development
-      - BUNDLE_WITHOUT=""  
+      - BUNDLE_WITHOUT=""
       - DATABASE_URL=postgres://postgres:postgres@db:5432/iswo_academy_development
-    ports:
-      - "3001:3001"
+    expose:
+      - "3001"
     depends_on:
       - db
     volumes:
       - .:/rails
       - bundle_cache:/usr/local/bundle
     command: "rails server -p 3001 -b 0.0.0.0"
+    networks:
+      - backend_network
+
+  apache:
+    image: httpd:2.4
+    ports:
+      - "8000:80"
+    volumes:
+      - ./apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./apache/sites:/usr/local/apache2/conf/sites
+    depends_on:
+      - api
+    networks:
+      - backend_network
 
   db:
     image: postgres:17
@@ -24,6 +38,12 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
 
 volumes:
   postgres_data:
