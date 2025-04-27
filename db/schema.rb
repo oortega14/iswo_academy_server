@@ -18,12 +18,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
     t.string "name", null: false
     t.text "description"
     t.string "slogan"
-    t.bigint "admin_id", null: false
+    t.bigint "owner_id", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["admin_id"], name: "index_academies_on_admin_id"
     t.index ["category_id"], name: "index_academies_on_category_id"
+    t.index ["owner_id"], name: "index_academies_on_owner_id"
   end
 
   create_table "academy_categories", force: :cascade do |t|
@@ -189,8 +189,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
   create_table "course_purchases", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "course_id", null: false
-    t.decimal "amount_paid", precision: 10, scale: 2, null: false
-    t.decimal "platform_fee", precision: 10, scale: 2, null: false
+    t.integer "status", default: 0
+    t.decimal "amount", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_course_purchases_on_course_id"
@@ -421,8 +421,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "academy_id", null: false
-    t.decimal "amount"
-    t.integer "status"
+    t.datetime "started_at"
+    t.datetime "expired_at"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["academy_id"], name: "index_subscriptions_on_academy_id"
@@ -502,7 +503,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_235850) do
   end
 
   add_foreign_key "academies", "academy_categories", column: "category_id"
-  add_foreign_key "academies", "users", column: "admin_id"
+  add_foreign_key "academies", "users", column: "owner_id"
   add_foreign_key "academy_configurations", "academies"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"

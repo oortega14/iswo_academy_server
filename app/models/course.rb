@@ -37,6 +37,7 @@ class Course < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :price, presence: true
+  validate :limit_courses_for_basic_plan, on: :create
 
   # Enums
   enum :status, {
@@ -62,5 +63,11 @@ class Course < ApplicationRecord
     return unless promo_videos.count > 1
 
     promo_videos.offset(1).destroy_all
+  end
+
+  def limit_courses_for_basic_plan
+    if academy.basic? && academy.courses.count >= 3
+      errors.add(:base, "El plan básico solo permite hasta 3 cursos.")
+    end
   end
 end

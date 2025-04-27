@@ -9,4 +9,7 @@ class Subscription < ApplicationRecord
   # Validations
   validates :amount, presence: true
   validates :status, presence: true
+
+  # Scopes
+  scope :currently_active, -> { where(status: :active).where('expires_at > ?', Time.current) }
 end

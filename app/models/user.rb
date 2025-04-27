@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :certificates, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :refresh_tokens, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   belongs_to :active_academy, class_name: 'Academy', optional: true
 
@@ -27,13 +28,24 @@ class User < ApplicationRecord
 
   # Enums
   enum :wizard_step, {
+    # Comunes a todos
     personal_info_step: 0,
     password_step: 1,
-    academy_selection_step: 2,
-    payment_info_step: 3,
-    payment_method_step: 4,
-    preferences_step: 5,
-    confirmation_step: 6
+
+    # Student
+    student_academy_selection_step: 2,
+    student_confirmation_step: 3,
+
+    # Teacher
+    teacher_academy_request_step: 4,
+    teacher_confirmation_step: 5,
+
+    # Admin
+    admin_payment_info_step: 6,
+    admin_payment_success_step: 7,
+    admin_create_academy_step: 8,
+    admin_preferences_step: 9,
+    admin_confirmation_step: 10
   }
 
   # Validations

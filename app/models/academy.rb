@@ -9,7 +9,12 @@ class Academy < ApplicationRecord
   has_one :academy_configuration, dependent: :destroy
   has_many :learning_routes, dependent: :destroy
   has_many :courses, dependent: :destroy
+  has_many :subscriptions
 
   # Nested Attributes
   accepts_nested_attributes_for :academy_configuration, allow_destroy: true
+
+  def active_subscription?
+    subscriptions.currently_active.exists?
+  end
 end
